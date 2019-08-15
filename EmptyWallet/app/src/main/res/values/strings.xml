@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">EmptyWallet</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint_title">Title...</string>
+    <string name="button_save">Save</string>
+    <string name="updateTransaction">Update</string>
+    <string name="hint_amount">Amount...</string>
+    <string name="empty_not_saved">Transaction not saved because it is empty.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="newtransaction">New Transaction</string>
+    <string name="whatif">What if</string>
+    <string name="spentday">Spent in the last day</string>
+    <string name="spentweek">Spent in the last week</string>
+    <string name="spentmonth">Spent in the last month</string>
+</resources>
