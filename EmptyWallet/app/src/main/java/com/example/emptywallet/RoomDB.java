@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 
 import java.util.Date;
 
-@Database(entities = {Transaction.class}, version = 4)
+@Database(entities = {Transaction.class}, version = 5)
 @TypeConverters({Converters.class})
 public abstract class RoomDB extends RoomDatabase {
 

@@ -5,6 +5,7 @@
     <string name="button_save">Save</string>
     <string name="updateTransaction">Update</string>
     <string name="hint_amount">Amount...</string>
+    <string name="hint_description">Description...</string>
     <string name="empty_not_saved">Transaction not saved because it is empty.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -14,4 +15,7 @@
     <string name="spentday">Spent in the last day</string>
     <string name="spentweek">Spent in the last week</string>
     <string name="spentmonth">Spent in the last month</string>
+
+    <string name="togglepurchase">Purchase</string>
+    <string name="toggleincome">Income</string>
 </resources>

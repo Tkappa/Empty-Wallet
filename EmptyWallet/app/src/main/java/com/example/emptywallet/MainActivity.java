@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.println(Log.DEBUG,"Hello",Constants.NEW_TRANSACTION_ACTIVITY_REQUEST_CODE + "vs"+ requestCode + ","+RESULT_OK+"vs"+ resultCode);
         if (requestCode == Constants.NEW_TRANSACTION_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Transaction word = new Transaction(Integer.parseInt(data.getStringExtra("AMOUNT")),data.getStringExtra("TITLE"));
+            Transaction word = new Transaction(Integer.parseInt(data.getStringExtra("AMOUNT")),data.getStringExtra("TITLE"),"",true);
             myTransViewModel.insert(word);
         } else {
             Toast.makeText(

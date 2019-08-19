@@ -2,6 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ToggleButton
+        android:id="@+id/isPurchaseToggler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="ToggleButton"
+        android:textOff="@string/toggleincome"
+        android:textOn="@string/togglepurchase" />
+
     <EditText
         android:id="@+id/edit_title"
         android:layout_width="match_parent"
@@ -13,17 +23,31 @@
         android:layout_marginBottom="@dimen/big_padding"
         android:layout_marginTop="@dimen/big_padding"
         android:textSize="18sp" />
+
     <EditText
         android:id="@+id/edit_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
         android:hint="@string/hint_amount"
-        android:inputType="textAutoComplete"
-        android:padding="@dimen/small_padding"
-        android:layout_marginBottom="@dimen/big_padding"
-        android:layout_marginTop="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/edit_description"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+
+        android:hint="@string/hint_description"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/edit_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date" />
 
     <Button
         android:id="@+id/button_save"

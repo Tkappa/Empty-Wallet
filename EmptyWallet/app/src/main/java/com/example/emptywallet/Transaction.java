@@ -11,7 +11,6 @@ import java.util.Date;
 @Entity(tableName= "transaction_table")
 public class Transaction {
 
-    @NonNull
     private String title;
 
     //@PrimaryKey
@@ -21,15 +20,28 @@ public class Transaction {
     @NonNull
     private Date date;
 
+    private String description;
+
+    @NonNull
+    private boolean isPurchase;
+
+
+    //Foto
+    //Geolocalizzazione
+    //Categoria
+    //Tags
+
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
 
-    public Transaction(@NonNull int pAmount,@NonNull String pTitle){
+    public Transaction(@NonNull int pAmount,String pTitle, String pDescription, boolean pIsPurchase){
         this.title=pTitle;
         this.amount=pAmount;
         this.date=new Date();
         this.id=0;
+        this.description=pDescription;
+        this.isPurchase=pIsPurchase;
     }
     public Transaction(){
 
@@ -45,6 +57,8 @@ public class Transaction {
     public int getId(){
         return this.id;
     }
+    public String getDescription(){ return this.description;}
+    public Boolean getIsPurchase(){return this.isPurchase;}
 
     public void setId(int pId){
         this.id=pId;
@@ -56,4 +70,6 @@ public class Transaction {
         this.title=pTitle;
     }
     public void setDate(Date pDate){this.date=pDate;}
+    public void setDescription(String pDescription){this.description=pDescription;}
+    public void setPurchase(boolean pIsPurchase){this.isPurchase=pIsPurchase;}
 }

@@ -1,6 +1,7 @@
 package com.example.emptywallet;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,16 @@ import java.util.List;
 
 public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsListAdapter.TransactionViewHolder> {
     class TransactionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final TextView wordItemView;
+        private final TextView tTitle;
+        private final TextView tAmount;
+        private final TextView tDate;
         OnTransactionClickListener onTransactionClickListener;
 
         private TransactionViewHolder(View itemView, OnTransactionClickListener pOnTransactionClickListener) {
             super(itemView);
-            wordItemView = itemView.findViewById(R.id.textView);
+            tTitle = itemView.findViewById(R.id.transactionTitle);
+            tDate= itemView.findViewById(R.id.transactionDate);
+            tAmount=itemView.findViewById(R.id.transactionAmount);
             this.onTransactionClickListener = pOnTransactionClickListener;
             itemView.setOnClickListener(this);
         }
@@ -47,10 +52,13 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
     public void onBindViewHolder(TransactionViewHolder holder, int position) {
         if (myTransactions != null) {
             Transaction current = myTransactions.get(position);
-            holder.wordItemView.setText(current.getTitle()+"-"+current.getAmount());
+            holder.tTitle.setText(current.getTitle());
+            holder.tAmount.setText(current.getAmount()+"");
+            holder.tDate.setText(current.getDate().toString());
+            Log.d("Hello", "onBindViewHolder: "+holder.tDate.getText());
         } else {
             // Covers the case of data not being ready yet.
-            holder.wordItemView.setText("No transaction found");
+            holder.tTitle.setText("No transaction found");
         }
     }
 
