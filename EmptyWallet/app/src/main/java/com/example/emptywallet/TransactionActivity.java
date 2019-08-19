@@ -3,6 +3,8 @@ package com.example.emptywallet;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,7 +12,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.ParseException;
@@ -27,11 +32,12 @@ public class TransactionActivity extends AppCompatActivity {
     private EditText mEditDateView;
     private EditText mEditDescriptionView;
     private ToggleButton mIsPurchaseView;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy' 'HH:mm");
 
     private int myID;
     private Transaction myTransaction;
     private TransactionsViewModel myTransViewModel;
+    final Calendar myCalendar = Calendar.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,19 +75,34 @@ public class TransactionActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
-                    Transaction toInsert = new Transaction(Integer.parseInt(mEditAmountView.getText().toString()),mEditTitleView.getText().toString(),mEditDescriptionView.getText().toString(),mIsPurchaseView.isChecked());
+                    if(!mEditAmountView.getText().toString().isEmpty() && !mEditTitleView.getText().toString().isEmpty()){
 
-                    Date date = null;
-                    try {
-                        date = dateFormat.parse((mEditDateView.getText().toString()));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                        Log.d("Hello", "onClick: I'mHere");
+                        Transaction toInsert = new Transaction(Integer.parseInt(mEditAmountView.getText().toString()),mEditTitleView.getText().toString(),mEditDescriptionView.getText().toString(),mIsPurchaseView.isChecked());
+                        Log.d("Hello", "onClick: I'mHere");
+                        Date date = null;
+                        try {
+                            date = dateFormat.parse((mEditDateView.getText().toString()));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(date);
+                        toInsert.setDate(date);
+                        Log.d("Hello", "onClick: "+ toInsert.getTitle());
+                        myTransViewModel.insert(toInsert);
+                        Intent replyIntent = new Intent();
+                        finish();
                     }
-                    System.out.println(date);
-                    toInsert.setDate(date);
-                    myTransViewModel.insert(myTransaction);
-                    Intent replyIntent = new Intent();
-                    finish();
+                    else {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                R.string.empty_not_saved,
+                                Toast.LENGTH_LONG).show();
+
+                        Intent replyIntent = new Intent();
+                        finish();
+                    }
+
                 }
                 Intent replyIntent = new Intent();
                 Log.println(Log.DEBUG,"Hello","ciao1");
@@ -112,13 +133,50 @@ public class TransactionActivity extends AppCompatActivity {
         }
         else{
             myID=-1;
+            mEditDateView.setText(dateFormat.format(new Date()));
         }
         if(myID!=-1){
             button.setText(R.string.updateTransaction);
         }
+
+
+        mEditDateView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(TransactionActivity.this, new  DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        new TimePickerDialog(TransactionActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                myCalendar.set(Calendar.MINUTE, minute);
+                                updateLabel();
+                            }
+                            },myCalendar.get(Calendar.HOUR_OF_DAY),myCalendar.get(Calendar.MINUTE),true).show();
+
+                    }
+
+                }, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
     }
 
+    private void updateLabel() {
 
+        mEditDateView.setText(dateFormat.format(myCalendar.getTime()));
+    }
     private class updateViewFromDataAsyncTask extends AsyncTask<Integer, Void, Transaction> {
 
 

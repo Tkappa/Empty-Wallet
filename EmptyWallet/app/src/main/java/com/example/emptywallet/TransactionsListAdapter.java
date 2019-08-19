@@ -1,14 +1,18 @@
 package com.example.emptywallet;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsListAdapter.TransactionViewHolder> {
@@ -37,6 +41,8 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
     private List<Transaction> myTransactions; // Cached copy of words
     private OnTransactionClickListener myOnTransactionClickListener;
 
+    SimpleDateFormat dayDateFormat = new SimpleDateFormat("EEEE");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     TransactionsListAdapter(Context context,OnTransactionClickListener pOnTransactionClickListener) {
         myInflater = LayoutInflater.from(context);
         this.myOnTransactionClickListener=pOnTransactionClickListener;
@@ -54,7 +60,17 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
             Transaction current = myTransactions.get(position);
             holder.tTitle.setText(current.getTitle());
             holder.tAmount.setText(current.getAmount()+"");
-            holder.tDate.setText(current.getDate().toString());
+            holder.tDate.setText(dayDateFormat.format(current.getDate())+"\n"+dateFormat.format(current.getDate()));
+            Drawable temp;
+            if(current.getIsPurchase()){
+                temp= ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.transaction_purchase_shape);
+            }
+            else{
+                temp= ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.transaction_income_shape);
+            }
+            holder.itemView.setClipToOutline(true);
+            holder.itemView.setBackground(temp);
+            //holder.itemView.setBackgroundColor(temp);
             Log.d("Hello", "onBindViewHolder: "+holder.tDate.getText());
         } else {
             // Covers the case of data not being ready yet.

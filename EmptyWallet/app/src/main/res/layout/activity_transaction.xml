@@ -46,8 +46,9 @@
         android:id="@+id/edit_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date" />
+        android:focusableInTouchMode="false"
+        android:inputType="date"
+        android:ems="10" />
 
     <Button
         android:id="@+id/button_save"

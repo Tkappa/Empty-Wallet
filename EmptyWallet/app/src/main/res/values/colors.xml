@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="buttonLabel">#d3d3d3</color>
+    <color name="transactionIsIncome">#3cc9b2</color>
+    <color name="transactionIsPurchase">#c93c69</color>
 </resources>

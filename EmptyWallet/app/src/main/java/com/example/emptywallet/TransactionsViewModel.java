@@ -78,7 +78,7 @@ public class TransactionsViewModel extends AndroidViewModel {
             Transaction curr = temp.get(i);
             Calendar currDate = Calendar.getInstance();
             currDate.setTime(curr.getDate());
-            if(currDate.after(beginning)&&currDate.before(end)){
+            if(currDate.after(beginning)&&currDate.before(end) && curr.getIsPurchase()){
                 totalamount+=curr.getAmount();
             }
         }
