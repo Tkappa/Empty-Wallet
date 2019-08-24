@@ -23,10 +23,10 @@ import java.util.List;
 public class MainFragment extends Fragment {
 
     private TransactionsViewModel myTransViewModel;
-    Button num;
-    Button newtransaction;
-    TextView flavourText;
-    int currentDisplayTime=Constants.DISPLAY_SHOWDAY;
+    private Button num;
+    private Button newtransaction;
+    private TextView flavourText;
+    private int currentDisplayTime=Constants.DISPLAY_SHOWDAY;
 
     public MainFragment() {
         // Required empty public constructor
@@ -36,48 +36,44 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        //Displays the amount spent
         flavourText = view.findViewById(R.id.flavourText);
         num = view.findViewById(R.id.amount);
-        num.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentDisplayTime= (currentDisplayTime%3)+1;
-                num.setText(myTransViewModel.getTotalAmountSpent(currentDisplayTime).toString());
-                    switch (currentDisplayTime) {
-                        case Constants.DISPLAY_SHOWDAY:
-                            flavourText.setText(R.string.spentday);
-                            break;
-                        case Constants.DISPLAY_SHOWWEEK:
-                            flavourText.setText(R.string.spentweek);
-                            break;
-                        case Constants.DISPLAY_SHOWMONTH:
-                            flavourText.setText(R.string.spentmonth);
-                            break;
-                        default:
-                            break;
-                    }
-            }
-        });
-        myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
-        myTransViewModel.getAllTransactions().observe( this, new Observer<List<Transaction>>() {
-            @Override
-            public void onChanged(List<Transaction> transactions) {
-                num.setText(myTransViewModel.getTotalAmountSpent(currentDisplayTime).toString());
-            }
+        num.setOnClickListener(view12 -> {
+            //Toggles between the 3 modes (Day/Week/Month)
+            currentDisplayTime= (currentDisplayTime%3)+1;
+
+            num.setText(myTransViewModel.getTotalAmountSpent(currentDisplayTime).toString());
+                switch (currentDisplayTime) {
+                    case Constants.DISPLAY_SHOWDAY:
+                        flavourText.setText(R.string.spentday);
+                        break;
+                    case Constants.DISPLAY_SHOWWEEK:
+                        flavourText.setText(R.string.spentweek);
+                        break;
+                    case Constants.DISPLAY_SHOWMONTH:
+                        flavourText.setText(R.string.spentmonth);
+                        break;
+                    default:
+                        break;
+                }
         });
 
+        myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
+        myTransViewModel.getAllTransactions().observe( this, transactions -> num.setText(myTransViewModel.getTotalAmountSpent(currentDisplayTime).toString()));
+
         newtransaction=view.findViewById(R.id.newtransaction);
-        newtransaction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), TransactionActivity.class);
-                getActivity().startActivityForResult(intent, Constants.NEW_TRANSACTION_ACTIVITY_REQUEST_CODE);
-            }
+        newtransaction.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), TransactionActivity.class);
+            getActivity().startActivityForResult(intent, Constants.NEW_TRANSACTION_ACTIVITY_REQUEST_CODE);
         });
+
         return view;
     }
+
 
 }

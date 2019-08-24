@@ -1,10 +1,8 @@
 package com.example.emptywallet;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 
 import java.util.Date;
 
@@ -25,11 +23,9 @@ public class Transaction {
     @NonNull
     private boolean isPurchase;
 
-
-    //Foto
-    //Geolocalizzazione
-    //Categoria
-    //Tags
+    //TODO: Photos
+    //TODO: Geolocalization
+    //TODO: Category
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -59,7 +55,6 @@ public class Transaction {
     }
     public String getDescription(){ return this.description;}
     public Boolean getIsPurchase(){return this.isPurchase;}
-
     public void setId(int pId){
         this.id=pId;
     }

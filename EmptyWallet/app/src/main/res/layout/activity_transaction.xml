@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="true"
-        android:text="ToggleButton"
         android:textOff="@string/toggleincome"
         android:textOn="@string/togglepurchase" />
 
@@ -49,6 +48,25 @@
         android:focusableInTouchMode="false"
         android:inputType="date"
         android:ems="10" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/transaction_history_tagsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/addTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/newtag" />
 
     <Button
         android:id="@+id/button_save"

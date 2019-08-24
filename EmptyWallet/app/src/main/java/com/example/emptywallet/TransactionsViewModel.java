@@ -1,7 +1,6 @@
 package com.example.emptywallet;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -26,6 +25,7 @@ public class TransactionsViewModel extends AndroidViewModel {
     }
 
     Integer getTotalAmountSpent(int displaySetting){
+
         Integer totalamount=0;
         List<Transaction> temp = myAllTransactions.getValue();
         Calendar beginning;
@@ -86,17 +86,16 @@ public class TransactionsViewModel extends AndroidViewModel {
     }
 
     public void insert(Transaction transaction){ myRepository.insert(transaction);}
+
     public void update (Transaction transaction){ myRepository.update(transaction);}
+
     public Transaction getTransactionByID(int id){
         getTransactionByIDResult= myRepository.getTransactionById(id);
         return getTransactionByIDResult;
     }
-    public Transaction getGetTransactionByIDResult(int id){
-        if (getTransactionByIDResult.getId()==id){
-            return getTransactionByIDResult;
-        }
-        else{
-            return null;
-        }
+
+    public void insertTransactionAndTags(Transaction transaction,List<Tag> tags){
+        myRepository.insert(transaction,tags);
     }
+
 }

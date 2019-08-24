@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="small_padding">6dp</dimen>
     <dimen name="big_padding">16dp</dimen>
+    <dimen name="tag_width">150dp</dimen>
 </resources>

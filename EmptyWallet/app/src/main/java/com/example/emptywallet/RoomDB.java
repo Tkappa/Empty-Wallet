@@ -5,12 +5,9 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
-import java.util.Date;
-
-@Database(entities = {Transaction.class}, version = 5)
+@Database(entities = {Transaction.class,Tag.class,tagTransactionRelation.class}, version = 6)
 @TypeConverters({Converters.class})
 public abstract class RoomDB extends RoomDatabase {
 

@@ -9,6 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".NewTagActivity"
+            android:theme="@style/AppTheme.Dialog" />
+        <activity
+            android:name=".SelectTagActivity"
+            android:label="@string/title_activity_select_tag"
+            android:theme="@style/AppTheme.Dialog" />
         <activity android:name=".TransactionActivity" />
         <activity
             android:name=".MainActivity"

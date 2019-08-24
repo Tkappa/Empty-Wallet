@@ -35,7 +35,7 @@ public class WalletFragmentPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return "Main";
                 default:
-                    return "bho";
+                    return "Doesn't Exist";
         }
     }
 }

@@ -1,12 +1,15 @@
 package com.example.emptywallet;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -16,17 +19,39 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsListAdapter.TransactionViewHolder> {
+
+    private final LayoutInflater myInflater;
+    private List<Transaction> myTransactions; // Cached copy of words
+    private OnTransactionClickListener myOnTransactionClickListener;
+
+    private TransactionsViewModel myTransViewModel;
+    private TagsViewModel myTagsViewModel;
+
+    private SimpleDateFormat dayDateFormat = new SimpleDateFormat("EEEE");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+    TransactionsListAdapter(Context context,OnTransactionClickListener pOnTransactionClickListener) {
+        myInflater = LayoutInflater.from(context);
+        this.myOnTransactionClickListener=pOnTransactionClickListener;
+    }
+
     class TransactionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         private final TextView tTitle;
         private final TextView tAmount;
         private final TextView tDate;
+        private final LinearLayout tTagLayout;
+
         OnTransactionClickListener onTransactionClickListener;
 
         private TransactionViewHolder(View itemView, OnTransactionClickListener pOnTransactionClickListener) {
             super(itemView);
+
             tTitle = itemView.findViewById(R.id.transactionTitle);
             tDate= itemView.findViewById(R.id.transactionDate);
             tAmount=itemView.findViewById(R.id.transactionAmount);
+            tTagLayout=itemView.findViewById(R.id.transaction_history_tagsLayout);
+
             this.onTransactionClickListener = pOnTransactionClickListener;
             itemView.setOnClickListener(this);
         }
@@ -37,30 +62,34 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
         }
     }
 
-    private final LayoutInflater myInflater;
-    private List<Transaction> myTransactions; // Cached copy of words
-    private OnTransactionClickListener myOnTransactionClickListener;
 
-    SimpleDateFormat dayDateFormat = new SimpleDateFormat("EEEE");
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    TransactionsListAdapter(Context context,OnTransactionClickListener pOnTransactionClickListener) {
-        myInflater = LayoutInflater.from(context);
-        this.myOnTransactionClickListener=pOnTransactionClickListener;
-    }
 
     @Override
     public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View itemView = myInflater.inflate(R.layout.recyclerview_singletransaction, parent, false);
         return new TransactionViewHolder(itemView,myOnTransactionClickListener);
+    }
+
+    // We need these two because we can't access the View Models from here, so we get them from the Fragment that handles us
+    public void setMyTransViewModel(TransactionsViewModel pmyTransViewModel){
+        myTransViewModel = pmyTransViewModel;
+    }
+
+    public void setTagsViewModel(TagsViewModel pTagsViewModel){
+        myTagsViewModel = pTagsViewModel;
     }
 
     @Override
     public void onBindViewHolder(TransactionViewHolder holder, int position) {
         if (myTransactions != null) {
+
             Transaction current = myTransactions.get(position);
+
             holder.tTitle.setText(current.getTitle());
             holder.tAmount.setText(current.getAmount()+"");
             holder.tDate.setText(dayDateFormat.format(current.getDate())+"\n"+dateFormat.format(current.getDate()));
+
             Drawable temp;
             if(current.getIsPurchase()){
                 temp= ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.transaction_purchase_shape);
@@ -68,10 +97,15 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
             else{
                 temp= ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.transaction_income_shape);
             }
+
             holder.itemView.setClipToOutline(true);
             holder.itemView.setBackground(temp);
-            //holder.itemView.setBackgroundColor(temp);
-            Log.d("Hello", "onBindViewHolder: "+holder.tDate.getText());
+
+            //Remove all the old Tags
+            holder.tTagLayout.removeAllViews();
+            //And send a query to get an updated list
+            new getAndPrintTagsFromTransaction(holder).execute(current);
+
         } else {
             // Covers the case of data not being ready yet.
             holder.tTitle.setText("No transaction found");
@@ -92,5 +126,35 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
 
     public interface OnTransactionClickListener{
         void onTransactionClick(int position);
+    }
+
+    private class getAndPrintTagsFromTransaction extends AsyncTask<Transaction, Void, List<Tag>> {
+
+        private TransactionViewHolder holder;
+
+        getAndPrintTagsFromTransaction(TransactionViewHolder pholder) {
+            this.holder=pholder;
+        }
+
+        @Override
+        protected List<Tag> doInBackground(final Transaction... params) {
+            return myTagsViewModel.getTagsByTransactionID(params[0].getId());
+        }
+
+        @Override
+        protected void onPostExecute (final List<Tag> result){
+
+            for(Tag i : result){
+
+                TextView tmp = new TextView(holder.itemView.getContext());
+
+                Drawable tDraw = ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.tag_shape);
+                tDraw.setColorFilter(new PorterDuffColorFilter(i.getColor(), PorterDuff.Mode.SRC_ATOP));
+                tmp.setBackground(tDraw);
+                tmp.setText(i.getName());
+
+                holder.tTagLayout.addView(tmp);
+            }
+        }
     }
 }
