@@ -1,10 +1,14 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Database;
 
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+
+import com.example.emptywallet.Categories.Category;
+import com.example.emptywallet.Tags.Tag;
+import com.example.emptywallet.Transactions.Transaction;
 
 import java.util.List;
 
@@ -14,13 +18,15 @@ public class WalletRepository {
 
     private LiveData<List<Tag>> myAllTags;
     private List<Tag> myAllTagsSync;
+    private LiveData<List<Category>> myAllCategories;
 
-    WalletRepository(Application application){
+    public WalletRepository(Application application){
         RoomDB db = RoomDB.getDatabase(application);
         myRoomDao= db.roomDAO();
         myAllTransactions = myRoomDao.getAllTransactions();
         myAllTags = myRoomDao.getAllTags();
         myAllTagsSync = myAllTags.getValue();
+        myAllCategories= myRoomDao.getAllCategories();
     }
 
 
@@ -107,6 +113,23 @@ public class WalletRepository {
         new deleteTagFromTransactionAsyncTask(myRoomDao,pTag).execute(Trans);
     }
 
+    /* CATEGORIES */
+
+    public void insert (Category pCategory){
+        new insertCategoryAsyncTask(myRoomDao).execute(pCategory);
+
+    }
+
+    public LiveData<List<Category>> getAllCategories(){
+        if(myAllCategories==null){
+            myAllCategories=myRoomDao.getAllCategories();
+        }
+        return myAllCategories;
+    }
+
+    public Category getCategoryById(int id){
+        return myRoomDao.getCategoryByID(id);
+    }
 
 
     /* ASYNC TASKS */
@@ -137,6 +160,21 @@ public class WalletRepository {
         @Override
         protected Void doInBackground(final Tag... params) {
             mAsyncTaskDao.insertTag(params[0]);
+            return null;
+        }
+    }
+
+    private static class insertCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
+
+        private RoomDAO mAsyncTaskDao;
+
+        insertCategoryAsyncTask(RoomDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Category... params) {
+            mAsyncTaskDao.insertCategory(params[0]);
             return null;
         }
     }

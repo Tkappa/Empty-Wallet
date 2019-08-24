@@ -62,6 +62,11 @@
             android:orientation="horizontal" />
     </HorizontalScrollView>
 
+    <Spinner
+        android:id="@+id/transaction_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/addTag"
         android:layout_width="match_parent"

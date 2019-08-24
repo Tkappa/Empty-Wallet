@@ -1,8 +1,11 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Transactions;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import com.example.emptywallet.Categories.Category;
 
 import java.util.Date;
 
@@ -23,6 +26,10 @@ public class Transaction {
     @NonNull
     private boolean isPurchase;
 
+    @NonNull
+    @ForeignKey(entity = Category.class,parentColumns = {"id"},childColumns = {"categoryID"},onDelete = ForeignKey.NO_ACTION)
+    private int categoryId;
+
     //TODO: Photos
     //TODO: Geolocalization
     //TODO: Category
@@ -31,13 +38,14 @@ public class Transaction {
     @NonNull
     private int id;
 
-    public Transaction(@NonNull int pAmount,String pTitle, String pDescription, boolean pIsPurchase){
+    public Transaction(@NonNull int pAmount,String pTitle, String pDescription, boolean pIsPurchase,int pCategoryId){
         this.title=pTitle;
         this.amount=pAmount;
         this.date=new Date();
         this.id=0;
         this.description=pDescription;
         this.isPurchase=pIsPurchase;
+        this.categoryId=pCategoryId;
     }
     public Transaction(){
 
@@ -67,4 +75,10 @@ public class Transaction {
     public void setDate(Date pDate){this.date=pDate;}
     public void setDescription(String pDescription){this.description=pDescription;}
     public void setPurchase(boolean pIsPurchase){this.isPurchase=pIsPurchase;}
+    public int getCategoryId() {
+        return categoryId;
+    }
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 }

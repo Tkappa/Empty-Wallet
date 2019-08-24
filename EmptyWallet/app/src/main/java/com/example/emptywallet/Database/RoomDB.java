@@ -1,4 +1,4 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Database;
 
 import android.content.Context;
 
@@ -7,7 +7,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {Transaction.class,Tag.class,tagTransactionRelation.class}, version = 6)
+import com.example.emptywallet.Categories.Category;
+import com.example.emptywallet.Tags.Tag;
+import com.example.emptywallet.Transactions.Transaction;
+
+@Database(entities = {Transaction.class, Tag.class,tagTransactionRelation.class, Category.class}, version = 8)
 @TypeConverters({Converters.class})
 public abstract class RoomDB extends RoomDatabase {
 

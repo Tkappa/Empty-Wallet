@@ -1,8 +1,11 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Database;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+
+import com.example.emptywallet.Tags.Tag;
+import com.example.emptywallet.Transactions.Transaction;
 
 public class DataBaseRelationHolder {
 }

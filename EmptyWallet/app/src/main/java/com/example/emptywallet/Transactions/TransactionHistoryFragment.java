@@ -1,4 +1,4 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Transactions;
 
 
 import android.content.Intent;
@@ -12,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.emptywallet.Categories.CategoryViewModel;
+import com.example.emptywallet.Constants;
+import com.example.emptywallet.R;
+import com.example.emptywallet.Tags.TagsViewModel;
 
 
 public class TransactionHistoryFragment extends Fragment implements TransactionsListAdapter.OnTransactionClickListener {
@@ -39,6 +43,7 @@ public class TransactionHistoryFragment extends Fragment implements Transactions
 
         myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
         adapter.setMyTransViewModel(myTransViewModel);
+        adapter.setCategoryViewModel(ViewModelProviders.of(this).get(CategoryViewModel.class));
         adapter.setTagsViewModel(ViewModelProviders.of(this).get(TagsViewModel.class));
 
         myTransViewModel.getAllTransactions().observe( this, transactions -> adapter.setTransactions(transactions));

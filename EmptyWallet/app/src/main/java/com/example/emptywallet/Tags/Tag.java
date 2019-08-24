@@ -1,6 +1,6 @@
 
 
-package com.example.emptywallet;
+package com.example.emptywallet.Tags;
 
 import android.graphics.Color;
 

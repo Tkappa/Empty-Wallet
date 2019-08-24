@@ -1,19 +1,22 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Tags;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
+import com.example.emptywallet.Constants;
+import com.example.emptywallet.R;
+import com.example.emptywallet.Tags.NewTagActivity;
+import com.example.emptywallet.Tags.TagSelectorListAdapter;
+import com.example.emptywallet.Tags.TagsViewModel;
+
 
 public class SelectTagActivity extends AppCompatActivity implements TagSelectorListAdapter.OnTagClickListener {
 

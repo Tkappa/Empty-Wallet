@@ -1,4 +1,4 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -6,6 +6,10 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.emptywallet.Categories.Category;
+import com.example.emptywallet.Tags.Tag;
+import com.example.emptywallet.Transactions.Transaction;
 
 import java.util.List;
 
@@ -59,6 +63,21 @@ public interface RoomDAO {
 
     @Query("SELECT * FROM tagTransactionRelation INNER JOIN transaction_table ON tagTransactionRelation.TransactionKey = transaction_table.id WHERE tagTransactionRelation.tagKey=:tagid ")
     LiveData<List<Transaction>> getAllTransactionFromTag(int tagid);
+
+
+    /* CATEGORIES */
+    @Insert
+    long insertCategory(Category category);
+
+    @Query("DELETE FROM category_table")
+    void deleteAllCategories();
+
+    @Query("SELECT * FROM category_table ORDER BY id ASC")
+    LiveData<List<Category>> getAllCategories();
+
+    @Query("SELECT * FROM category_table WHERE id=:id LIMIT 1")
+    Category getCategoryByID(int id);
+
 
 
 }

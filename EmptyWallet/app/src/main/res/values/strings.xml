@@ -6,7 +6,7 @@
     <string name="updateTransaction">Update</string>
     <string name="hint_amount">Amount…</string>
     <string name="hint_description">Description…</string>
-    <string name="empty_not_saved">Transaction must have a title and amount.</string>
+    <string name="empty_not_saved">Transaction must have a title , amount and category.</string>
 
 
     <string name="newtransaction">New Transaction</string>
@@ -24,4 +24,8 @@
     <string name="tagnamehint">Tag name…</string>
     <string name="tagcolorhint">Tag colour…</string>
     <string name="tagemptyname">Add a title to your tag</string>
+
+    <string name="newcategory">Add a new category</string>
+    <string name="categorynameempty">Add a name to your category</string>
+    <string name="categorynamehint">Add a category name…</string>
 </resources>

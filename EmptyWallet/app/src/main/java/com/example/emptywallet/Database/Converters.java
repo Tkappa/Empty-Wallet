@@ -1,4 +1,4 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Database;
 
 import androidx.room.TypeConverter;
 

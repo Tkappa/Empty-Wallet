@@ -3,6 +3,7 @@ package com.example.emptywallet;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.emptywallet.Transactions.TransactionsViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;

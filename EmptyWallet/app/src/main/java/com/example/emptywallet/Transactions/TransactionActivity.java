@@ -1,4 +1,4 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Transactions;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -13,11 +13,25 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.example.emptywallet.Categories.Category;
+import com.example.emptywallet.Categories.CategoryActivity;
+import com.example.emptywallet.Categories.CategorySpinnerAdapter;
+import com.example.emptywallet.Categories.CategoryViewModel;
+import com.example.emptywallet.Constants;
+import com.example.emptywallet.R;
+import com.example.emptywallet.Tags.SelectTagActivity;
+import com.example.emptywallet.Tags.Tag;
+import com.example.emptywallet.Tags.TagsViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +48,8 @@ public class TransactionActivity extends AppCompatActivity {
     private EditText mEditDescriptionView;
     private ToggleButton mIsPurchaseView;
     private LinearLayout mTagsLayout;
+    private Spinner mCategorySpinner;
+    private CategorySpinnerAdapter adapter;
 
     private Button addTagBtn;
 
@@ -46,6 +62,7 @@ public class TransactionActivity extends AppCompatActivity {
 
     private TransactionsViewModel myTransViewModel;
     private TagsViewModel myTagsViewModel;
+    private CategoryViewModel myCategoryViewModel;
 
     private final Calendar myCalendar = Calendar.getInstance();
 
@@ -56,6 +73,7 @@ public class TransactionActivity extends AppCompatActivity {
 
         myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
         myTagsViewModel = ViewModelProviders.of(this).get(TagsViewModel.class);
+        myCategoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         setContentView(R.layout.activity_transaction);
 
@@ -66,10 +84,42 @@ public class TransactionActivity extends AppCompatActivity {
         mIsPurchaseView=findViewById(R.id.isPurchaseToggler);
         addTagBtn = findViewById(R.id.addTag);
         mTagsLayout = findViewById(R.id.transaction_history_tagsLayout);
+        mCategorySpinner = findViewById(R.id.transaction_spinner);
 
         currentTags= new ArrayList<>();
         tagsToRemove = new ArrayList<>();
 
+        myCategoryViewModel.getAllCategories().observe( this, categories -> adapter.setCategories(categories));
+
+        adapter = new CategorySpinnerAdapter(this,
+                android.R.layout.simple_spinner_item);
+
+        mCategorySpinner.setAdapter(adapter);
+        // You can create an anonymous listener to handle the event when is selected an spinner item
+        mCategorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
+                Category currCat = adapter.getItem(position);
+                Log.d("CategorySelection", "onItemSelected:  " + currCat.getName()+ ", "+ currCat.getId());
+                if (currCat.getId()==-1){
+                    Intent intent = new Intent( view.getContext(), CategoryActivity.class);
+                    startActivityForResult(intent, Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE);
+                }
+                else {
+
+                    Log.d("CategorySelection", "Else: " + currCat.getName()+ ", "+ currCat.getId() + "Calling getpositionFromId!");
+                    //TODO: SetCategory
+                    int spinnerPosition = adapter.getPositionFromId(currCat.getId());
+                    Log.d("CategorySelection", "Spinner position: " + spinnerPosition);
+                    mCategorySpinner.setSelection(spinnerPosition);
+                    //mCategorySpinner.setSelection(adapter.getPosition());
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapter) { }
+        });
 
         //Button to save/update the Transaction
         final Button button = findViewById(R.id.button_save);
@@ -91,6 +141,10 @@ public class TransactionActivity extends AppCompatActivity {
                 }
 
                 myTransaction.setDate(date);
+                if(adapter.getItem(mCategorySpinner.getSelectedItemPosition()).getId()!=-1){
+                    myTransaction.setCategoryId(adapter.getItem(mCategorySpinner.getSelectedItemPosition()).getId());
+                    Log.d("CategorySelection", "onCreate: I've set id to "+ myTransaction.getCategoryId());
+                }
                 myTransViewModel.update(myTransaction);
 
                 //Removes from the DB all the old tags that have been removed
@@ -111,13 +165,15 @@ public class TransactionActivity extends AppCompatActivity {
             }
             //If not it means we are creating a new Transaction
             else{
-                if(!mEditAmountView.getText().toString().isEmpty() && !mEditTitleView.getText().toString().isEmpty()){
+                Log.d("CategorySelection", "onCreate: "+ adapter.getItem(mCategorySpinner.getSelectedItemPosition()).getId() + " position = "+mCategorySpinner.getSelectedItemPosition() );
+                if(!mEditAmountView.getText().toString().isEmpty() && !mEditTitleView.getText().toString().isEmpty() && !(adapter.getItem(mCategorySpinner.getSelectedItemPosition()).getId()==-1)){
 
 
                     Transaction toInsert = new Transaction(Integer.parseInt(mEditAmountView.getText().toString())
                             ,mEditTitleView.getText().toString()
                             ,mEditDescriptionView.getText().toString()
-                            ,mIsPurchaseView.isChecked());
+                            ,mIsPurchaseView.isChecked()
+                            ,adapter.getItem(mCategorySpinner.getSelectedItemPosition()).getId());
 
                     Date date;
                     try {
@@ -220,6 +276,10 @@ public class TransactionActivity extends AppCompatActivity {
         } else {
             //No tag was selected
         }
+        if(requestCode == Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+            // 2 offset because  = List starts at 0 + "Fake Category"
+            mCategorySpinner.setSelection(adapter.getCount()-1);
+        }
     }
 
     private void removeFromTagList(Tag key){
@@ -257,6 +317,9 @@ public class TransactionActivity extends AppCompatActivity {
                 mEditDateView.setText(dateFormat.format(myTransaction.getDate()));
                 mEditDescriptionView.setText(myTransaction.getDescription());
                 mIsPurchaseView.setChecked(myTransaction.getIsPurchase());
+                Log.d("CategorySelection", "onPostExecute: I'm searching for " +myTransaction.getCategoryId()  );
+                Log.d("CategorySelection", "onPostExecute: I've should've update the spinnet to " + adapter.getPositionFromId(myTransaction.getCategoryId())  );
+                mCategorySpinner.setSelection(adapter.getPositionFromId(myTransaction.getCategoryId()));
                 new updateTagsFromDataAsyncTask().execute(myTransaction.getId());
 
             }

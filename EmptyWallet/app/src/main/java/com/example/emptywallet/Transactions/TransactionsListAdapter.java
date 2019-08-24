@@ -1,11 +1,10 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Transactions;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,12 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.emptywallet.Categories.Category;
+import com.example.emptywallet.Categories.CategoryViewModel;
+import com.example.emptywallet.R;
+import com.example.emptywallet.Tags.Tag;
+import com.example.emptywallet.Tags.TagsViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,6 +31,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
 
     private TransactionsViewModel myTransViewModel;
     private TagsViewModel myTagsViewModel;
+    private CategoryViewModel myCategoryViewModel;
 
     private SimpleDateFormat dayDateFormat = new SimpleDateFormat("EEEE");
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -40,6 +46,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
         private final TextView tTitle;
         private final TextView tAmount;
         private final TextView tDate;
+        private final TextView tCategory;
         private final LinearLayout tTagLayout;
 
         OnTransactionClickListener onTransactionClickListener;
@@ -51,6 +58,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
             tDate= itemView.findViewById(R.id.transactionDate);
             tAmount=itemView.findViewById(R.id.transactionAmount);
             tTagLayout=itemView.findViewById(R.id.transaction_history_tagsLayout);
+            tCategory=itemView.findViewById(R.id.transaction_history_transactionCategory);
 
             this.onTransactionClickListener = pOnTransactionClickListener;
             itemView.setOnClickListener(this);
@@ -80,6 +88,10 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
         myTagsViewModel = pTagsViewModel;
     }
 
+    public void setCategoryViewModel(CategoryViewModel pCategoryViewModel){
+        myCategoryViewModel = pCategoryViewModel;
+    }
+
     @Override
     public void onBindViewHolder(TransactionViewHolder holder, int position) {
         if (myTransactions != null) {
@@ -105,6 +117,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
             holder.tTagLayout.removeAllViews();
             //And send a query to get an updated list
             new getAndPrintTagsFromTransaction(holder).execute(current);
+            new getAndPrintCategory(holder).execute(current);
 
         } else {
             // Covers the case of data not being ready yet.
@@ -155,6 +168,26 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
 
                 holder.tTagLayout.addView(tmp);
             }
+        }
+    }
+
+    private class getAndPrintCategory extends AsyncTask<Transaction, Void, Category> {
+
+        private TransactionViewHolder holder;
+
+        getAndPrintCategory(TransactionViewHolder pholder) {
+            this.holder=pholder;
+        }
+
+        @Override
+        protected Category doInBackground(final Transaction... params) {
+            return myCategoryViewModel.getCategoryById(params[0].getCategoryId());
+        }
+
+        @Override
+        protected void onPostExecute (final Category result){
+            holder.tCategory.setText(result.getName());
+
         }
     }
 }

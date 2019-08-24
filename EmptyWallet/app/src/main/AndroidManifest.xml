@@ -9,13 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewTagActivity"
+        <activity android:name=".Tags.NewTagActivity"
+            android:theme="@style/AppTheme.Dialog" />
+        <activity android:name=".Categories.CategoryActivity"
             android:theme="@style/AppTheme.Dialog" />
         <activity
-            android:name=".SelectTagActivity"
+            android:name=".Tags.SelectTagActivity"
             android:label="@string/title_activity_select_tag"
             android:theme="@style/AppTheme.Dialog" />
-        <activity android:name=".TransactionActivity" />
+        <activity android:name=".Transactions.TransactionActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

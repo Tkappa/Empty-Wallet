@@ -1,9 +1,13 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Transactions;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.emptywallet.Constants;
+import com.example.emptywallet.Tags.Tag;
+import com.example.emptywallet.Database.WalletRepository;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -20,11 +24,11 @@ public class TransactionsViewModel extends AndroidViewModel {
         myAllTransactions = myRepository.getAllTransactions();
     }
 
-    LiveData<List<Transaction>> getAllTransactions(){
+    public LiveData<List<Transaction>> getAllTransactions(){
         return myAllTransactions;
     }
 
-    Integer getTotalAmountSpent(int displaySetting){
+    public Integer getTotalAmountSpent(int displaySetting){
 
         Integer totalamount=0;
         List<Transaction> temp = myAllTransactions.getValue();

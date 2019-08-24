@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -14,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.List;
+import com.example.emptywallet.Categories.CategoryViewModel;
+import com.example.emptywallet.Transactions.TransactionActivity;
+import com.example.emptywallet.Transactions.TransactionsViewModel;
 
 
 /**
@@ -23,6 +24,7 @@ import java.util.List;
 public class MainFragment extends Fragment {
 
     private TransactionsViewModel myTransViewModel;
+    private CategoryViewModel myCategoryViewModel;
     private Button num;
     private Button newtransaction;
     private TextView flavourText;
@@ -65,6 +67,8 @@ public class MainFragment extends Fragment {
 
         myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
         myTransViewModel.getAllTransactions().observe( this, transactions -> num.setText(myTransViewModel.getTotalAmountSpent(currentDisplayTime).toString()));
+        myCategoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        myCategoryViewModel.getAllCategories();
 
         newtransaction=view.findViewById(R.id.newtransaction);
         newtransaction.setOnClickListener(view1 -> {

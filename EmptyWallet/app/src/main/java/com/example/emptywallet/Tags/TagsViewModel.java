@@ -1,8 +1,11 @@
-package com.example.emptywallet;
+package com.example.emptywallet.Tags;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.emptywallet.Transactions.Transaction;
+import com.example.emptywallet.Database.WalletRepository;
 
 import java.util.List;
 
@@ -27,7 +30,9 @@ public class TagsViewModel extends AndroidViewModel {
         return myRepository.getTagById(id);
     }
 
-    public void insertTransTagRelation(Transaction pTrans,Tag pTag){
+    /* TRANSACTION <-> TAGS */
+
+    public void insertTransTagRelation(Transaction pTrans, Tag pTag){
         myRepository.insert(pTrans,pTag);
     }
 
