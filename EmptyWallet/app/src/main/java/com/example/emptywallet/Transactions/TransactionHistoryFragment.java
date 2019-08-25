@@ -11,16 +11,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.emptywallet.Categories.CategoryViewModel;
 import com.example.emptywallet.Constants;
 import com.example.emptywallet.R;
 import com.example.emptywallet.Tags.TagsViewModel;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class TransactionHistoryFragment extends Fragment implements TransactionsListAdapter.OnTransactionClickListener {
 
     private TransactionsViewModel myTransViewModel;
+    private Button setFiltersButton;
+    private TransactionsListAdapter adapter;
 
     public TransactionHistoryFragment() {
         // Required empty public constructor
@@ -36,10 +41,16 @@ public class TransactionHistoryFragment extends Fragment implements Transactions
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
 
-        final TransactionsListAdapter adapter = new TransactionsListAdapter(getActivity(),this);
+        adapter = new TransactionsListAdapter(getActivity(),this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        setFiltersButton = view.findViewById(R.id.transaction_history_set_filter_button);
+        setFiltersButton.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), TransactionFilterActivity.class);
+            startActivityForResult(intent, Constants.SET_FILTER_ACTIVITY_REQUEST_CODE);
+        });
 
         myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
         adapter.setMyTransViewModel(myTransViewModel);
@@ -61,4 +72,40 @@ public class TransactionHistoryFragment extends Fragment implements Transactions
 
         getActivity().startActivityForResult(intent, Constants.MODIFY_TRANSACTION_ACTIVITY_REQUEST_CODE);
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("TransFiler","sono arrivato qui");
+        if (requestCode == Constants.SET_FILTER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            TransactionHistoryFilter filter = new TransactionHistoryFilter();
+
+            filter.setCheckCategories(data.getBooleanExtra("categoryFilter",false));
+            filter.setExcludeCategories(data.getBooleanExtra("categoryFilterExclude",false));
+            int[] catToFilter = data.getIntArrayExtra("categoryFilteredList");
+            Log.d("TransFiler", "C'è int array ?" + data.hasExtra("categoryFilteredList"));
+
+            filter.setCategoriesToFilter(catToFilter);
+
+            filter.setTagFilter(data.getBooleanExtra("tagFilter",false));
+            filter.setTagFilterExclude(data.getBooleanExtra("tagFilterExclude",false));
+            filter.setTagFilterList(data.getIntArrayExtra("tagFilterList"));
+
+            filter.setToDateFilter(data.getBooleanExtra("fromDateFilter",false));
+            filter.setToDateDate(data.getLongExtra("fromDateDate",0));
+
+            filter.setToDateFilter(data.getBooleanExtra("toDateFilter",false));
+            filter.setToDateDate(data.getLongExtra("toDateDate",0));
+            Log.d("TransFiler","sono arrivato qui" +  new Boolean(filter.getCategoriesToFilter()==null).toString());
+
+            adapter.setTransactionFilter(filter);
+            adapter.setTransactions(myTransViewModel.getAllTransactions().getValue());
+            adapter.checkFilter();
+
+        }
+        //if(requestCode == Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+        //    // 1 offset because the List starts at 0
+        //    mCategorySpinner.setSelection(adapter.getCount()-1);
+        //}
+    }
+
 }

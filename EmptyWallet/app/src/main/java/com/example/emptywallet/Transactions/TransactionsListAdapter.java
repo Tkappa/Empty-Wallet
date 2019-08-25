@@ -21,6 +21,7 @@ import com.example.emptywallet.Tags.Tag;
 import com.example.emptywallet.Tags.TagsViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsListAdapter.TransactionViewHolder> {
@@ -36,8 +37,12 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
     private SimpleDateFormat dayDateFormat = new SimpleDateFormat("EEEE");
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+    private TransactionHistoryFilter myFilter;
+
     TransactionsListAdapter(Context context,OnTransactionClickListener pOnTransactionClickListener) {
         myInflater = LayoutInflater.from(context);
+        myFilter= new TransactionHistoryFilter();
+        myTransactions= new ArrayList<Transaction>();
         this.myOnTransactionClickListener=pOnTransactionClickListener;
     }
 
@@ -126,8 +131,25 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
     }
 
     void setTransactions(List<Transaction> transactions){
-        myTransactions=transactions;
+        myTransactions.clear();
+        for(Transaction i:transactions){
+            if( myFilter.passesFilter(i)){
+                myTransactions.add(i);
+            }
+        }
+        //myTransactions=transactions;
         notifyDataSetChanged();
+    }
+
+    void checkFilter(){
+        for (Transaction i:new ArrayList<Transaction>(myTransactions)){
+            if(!myFilter.passesFilter(i)) myTransactions.remove(i);
+        }
+        notifyDataSetChanged();
+    }
+
+    void setTransactionFilter(TransactionHistoryFilter pFilter){
+        myFilter=pFilter;
     }
 
     @Override

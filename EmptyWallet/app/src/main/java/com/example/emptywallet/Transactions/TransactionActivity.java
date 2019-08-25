@@ -277,7 +277,7 @@ public class TransactionActivity extends AppCompatActivity {
             //No tag was selected
         }
         if(requestCode == Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
-            // 2 offset because  = List starts at 0 + "Fake Category"
+            // 1 offset because the List starts at 0
             mCategorySpinner.setSelection(adapter.getCount()-1);
         }
     }

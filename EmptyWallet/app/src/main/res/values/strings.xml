@@ -7,6 +7,11 @@
     <string name="hint_amount">Amount…</string>
     <string name="hint_description">Description…</string>
     <string name="empty_not_saved">Transaction must have a title , amount and category.</string>
+    <string name="set_filters">Set filter</string>
+    <string name="filterinclude">Include only</string>
+    <string name="filterexclude">Exclude if</string>
+    <string name="addconditioncategory">Add filter category</string>
+    <string name="addconditiontag">Add filter tag</string>
 
 
     <string name="newtransaction">New Transaction</string>
@@ -28,4 +33,6 @@
     <string name="newcategory">Add a new category</string>
     <string name="categorynameempty">Add a name to your category</string>
     <string name="categorynamehint">Add a category name…</string>
+    <string name="fromDate">From</string>
+    <string name="toDate">To</string>
 </resources>

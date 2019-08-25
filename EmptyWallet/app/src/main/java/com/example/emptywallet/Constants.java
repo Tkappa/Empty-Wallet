@@ -7,6 +7,7 @@ public class Constants {
     public static int MODIFY_TRANSACTION_ACTIVITY_REQUEST_CODE=2;
     public static int SELECT_TAG_ACTIVITY_REQUEST_CODE=3;
     public static int NEW_CATEGORY_ACTIVITY_REQUEST_CODE=4;
+    public static int SET_FILTER_ACTIVITY_REQUEST_CODE=5;
 
 
     /* AMOUNT SPENT TIMEFRAME IN MAIN VIEW */
@@ -20,5 +21,7 @@ public class Constants {
         TagsSelection : Various messages inherent to tags
         TransactionsSelection: Various messages inherent to Transactions
         CategorySelection : Various messages inherent to Categories
+
+        TransFiler: Various messages regarding filters
      */
 }

@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         Log.println(Log.DEBUG,"ActivityResults",Constants.NEW_TRANSACTION_ACTIVITY_REQUEST_CODE + "vs"+ requestCode + ","+RESULT_OK+"vs"+ resultCode);
         if (requestCode == Constants.NEW_TRANSACTION_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             //RESULT SUCCESFUL
-        } else {
-            //WAS NOT SUCCESFUL
         }
     }
 }
