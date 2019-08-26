@@ -35,4 +35,8 @@
     <string name="categorynamehint">Add a category name…</string>
     <string name="fromDate">From</string>
     <string name="toDate">To</string>
+    <string name="statsbutton">View Stats</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

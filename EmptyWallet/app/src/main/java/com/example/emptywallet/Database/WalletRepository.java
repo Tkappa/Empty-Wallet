@@ -15,6 +15,7 @@ import java.util.List;
 public class WalletRepository {
     private RoomDAO myRoomDao;
     private LiveData<List<Transaction>> myAllTransactions;
+    private LiveData<List<tagTransactionRelation>> myAllTagTransactionRelations;
 
     private LiveData<List<Tag>> myAllTags;
     private List<Tag> myAllTagsSync;
@@ -27,6 +28,7 @@ public class WalletRepository {
         myAllTags = myRoomDao.getAllTags();
         myAllTagsSync = myAllTags.getValue();
         myAllCategories= myRoomDao.getAllCategories();
+        myAllTagTransactionRelations = myRoomDao.getAllTagsTransactionRelations();
     }
 
 
@@ -112,6 +114,14 @@ public class WalletRepository {
     public void deleteTagFromTransaction(Transaction Trans, Tag pTag){
         new deleteTagFromTransactionAsyncTask(myRoomDao,pTag).execute(Trans);
     }
+
+    public LiveData<List<tagTransactionRelation>> getAllTagsTransactionRelations(){
+        if(myAllTagTransactionRelations==null){
+            myAllTagTransactionRelations=myRoomDao.getAllTagsTransactionRelations();
+        }
+        return myAllTagTransactionRelations;
+    }
+
 
     /* CATEGORIES */
 

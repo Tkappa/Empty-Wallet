@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Stats.Stats_transVsCategoriesFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ToggleButton
+                android:id="@+id/stats_transdays_toggleincome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:textOff="@string/toggleincome"
+                android:textOn="@string/togglepurchase" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/stats_transdaysbarchart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/chart_heigth" >
+
+            </com.github.mikephil.charting.charts.BarChart>
+
+            <TextView
+                android:id="@+id/fasf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Categories" />
+
+            <LinearLayout
+                android:id="@+id/stats_transdays_textlayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

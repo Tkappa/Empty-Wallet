@@ -7,8 +7,6 @@ import androidx.room.ForeignKey;
 import com.example.emptywallet.Tags.Tag;
 import com.example.emptywallet.Transactions.Transaction;
 
-public class DataBaseRelationHolder {
-}
 
 
 //Used for the relations between tags and transaction , it's N to N
@@ -26,7 +24,7 @@ public class DataBaseRelationHolder {
                         onDelete = ForeignKey.CASCADE
                 )}
 )
-class tagTransactionRelation {
+public class tagTransactionRelation {
     @NonNull
     private int tagKey = 0;
 

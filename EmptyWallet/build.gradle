@@ -21,6 +21,7 @@ allprojects {
         maven {
             url  "https://dl.bintray.com/sasikanthmiriyampalli/maven"
         }
+        maven { url 'https://jitpack.io' }
     }
 }
 

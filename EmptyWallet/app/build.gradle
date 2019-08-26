@@ -65,5 +65,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'petrov.kristiyan:colorpicker-library:1.1.10'
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

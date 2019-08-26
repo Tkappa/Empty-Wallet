@@ -16,6 +16,7 @@ import android.widget.Button;
 import com.example.emptywallet.Categories.CategoryViewModel;
 import com.example.emptywallet.Constants;
 import com.example.emptywallet.R;
+import com.example.emptywallet.Stats.MainStatsActivity;
 import com.example.emptywallet.Tags.TagsViewModel;
 
 import static android.app.Activity.RESULT_OK;
@@ -26,6 +27,7 @@ public class TransactionHistoryFragment extends Fragment implements Transactions
     private TransactionsViewModel myTransViewModel;
     private Button setFiltersButton;
     private TransactionsListAdapter adapter;
+    private Button statsButton;
 
     public TransactionHistoryFragment() {
         // Required empty public constructor
@@ -58,6 +60,13 @@ public class TransactionHistoryFragment extends Fragment implements Transactions
         adapter.setTagsViewModel(ViewModelProviders.of(this).get(TagsViewModel.class));
 
         myTransViewModel.getAllTransactions().observe( this, transactions -> adapter.setTransactions(transactions));
+
+
+        statsButton = view.findViewById(R.id.transaction_history_statsbutton);
+        statsButton.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), MainStatsActivity.class);
+            startActivity(intent);
+        });
 
         return view;
     }

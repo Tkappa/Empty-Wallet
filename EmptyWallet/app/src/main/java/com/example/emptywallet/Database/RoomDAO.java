@@ -52,6 +52,9 @@ public interface RoomDAO {
 
     /* TRANSACTIONS <-> TAGS RELATIONS */
 
+    @Query("SELECT * FROM tagTransactionRelation")
+    LiveData<List<tagTransactionRelation>> getAllTagsTransactionRelations();
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertTagTransactionRelation(tagTransactionRelation rel);
 
