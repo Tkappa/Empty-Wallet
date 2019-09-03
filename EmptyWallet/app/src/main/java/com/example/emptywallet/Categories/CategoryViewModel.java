@@ -25,4 +25,8 @@ public class CategoryViewModel extends AndroidViewModel {
     public Category getCategoryById(int id){ return myRepository.getCategoryById(id);}
 
     public LiveData<List<Category>> getAllCategories(){return myAllCategories;}
+
+    public void updateCategory(Category cat){
+        myRepository.update(cat);
+    }
 }

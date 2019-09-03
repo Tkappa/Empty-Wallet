@@ -81,6 +81,9 @@ public interface RoomDAO {
     @Query("SELECT * FROM category_table WHERE id=:id LIMIT 1")
     Category getCategoryByID(int id);
 
+    @Update
+    void updateCategories(Category... categories);
+
 
 
 }

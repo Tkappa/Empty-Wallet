@@ -68,7 +68,7 @@ public class MainFragment extends Fragment {
         myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
         myTransViewModel.getAllTransactions().observe( this, transactions -> num.setText(myTransViewModel.getTotalAmountSpent(currentDisplayTime).toString()));
         myCategoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-        myCategoryViewModel.getAllCategories();
+        myCategoryViewModel.getAllCategories().observe(this,categories -> {});
 
         newtransaction=view.findViewById(R.id.newtransaction);
         newtransaction.setOnClickListener(view1 -> {

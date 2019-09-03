@@ -45,6 +45,10 @@ public class WalletRepository {
         new updateTransactionAsyncTask(myRoomDao).execute(transaction);
     }
 
+    public void update (Category category) {
+        new updateCategoryAsyncTask(myRoomDao).execute(category);
+    }
+
     public Transaction getTransactionById(int id){
         return myRoomDao.getTransactionByID(id);
     }
@@ -215,6 +219,21 @@ public class WalletRepository {
         @Override
         protected Void doInBackground(final Transaction... params) {
             mAsyncTaskDao.updateTransactions(params[0]);
+            return null;
+        }
+    }
+
+    private static class updateCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
+
+        private RoomDAO mAsyncTaskDao;
+
+        updateCategoryAsyncTask(RoomDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Category... params) {
+            mAsyncTaskDao.updateCategories(params[0]);
             return null;
         }
     }

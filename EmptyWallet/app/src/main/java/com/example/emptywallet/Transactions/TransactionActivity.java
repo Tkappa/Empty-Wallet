@@ -105,6 +105,7 @@ public class TransactionActivity extends AppCompatActivity {
                 Log.d("CategorySelection", "onItemSelected:  " + currCat.getName()+ ", "+ currCat.getId());
                 if (currCat.getId()==-1){
                     Intent intent = new Intent( view.getContext(), CategoryActivity.class);
+                    intent.putExtra("fromTransaction",true);
                     startActivityForResult(intent, Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE);
                 }
                 else {

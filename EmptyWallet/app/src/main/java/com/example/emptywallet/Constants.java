@@ -8,6 +8,7 @@ public class Constants {
     public static int SELECT_TAG_ACTIVITY_REQUEST_CODE=3;
     public static int NEW_CATEGORY_ACTIVITY_REQUEST_CODE=4;
     public static int SET_FILTER_ACTIVITY_REQUEST_CODE=5;
+    public static int MODIFY_CATEGORY_ACTIVITY_REQUEST_CODE=6;
 
 
     /* AMOUNT SPENT TIMEFRAME IN MAIN VIEW */

@@ -11,7 +11,7 @@ import com.example.emptywallet.Categories.Category;
 import com.example.emptywallet.Tags.Tag;
 import com.example.emptywallet.Transactions.Transaction;
 
-@Database(entities = {Transaction.class, Tag.class,tagTransactionRelation.class, Category.class}, version = 8)
+@Database(entities = {Transaction.class, Tag.class,tagTransactionRelation.class, Category.class}, version = 9)
 @TypeConverters({Converters.class})
 public abstract class RoomDB extends RoomDatabase {
 

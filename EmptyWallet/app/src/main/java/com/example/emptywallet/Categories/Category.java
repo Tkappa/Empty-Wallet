@@ -13,8 +13,15 @@ public class Category {
     @NonNull
     private int id;
 
+    private int budgetAmount;
+
     public Category(String pName){
         name=pName;
+        budgetAmount=-1;
+    }
+    public Category(String pName,int pBudgetAmount){
+        name=pName;
+        budgetAmount=pBudgetAmount;
     }
     public Category(){ }
 
@@ -34,4 +41,13 @@ public class Category {
     public void setName(@NonNull String name) {
         this.name = name;
     }
+
+    public int getBudgetAmount() {
+        return budgetAmount;
+    }
+
+    public void setBudgetAmount(int budgetAmount) {
+        this.budgetAmount = budgetAmount;
+    }
+
 }
