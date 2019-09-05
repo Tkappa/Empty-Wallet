@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="10dp"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <ToggleButton
         android:id="@+id/isPurchaseToggler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/basic_button"
         android:checked="true"
         android:textOff="@string/toggleincome"
         android:textOn="@string/togglepurchase" />
@@ -70,6 +73,7 @@
     <Button
         android:id="@+id/addTag"
         android:layout_width="match_parent"
+        style="@style/basic_button"
         android:layout_height="wrap_content"
         android:text="@string/newtag" />
 

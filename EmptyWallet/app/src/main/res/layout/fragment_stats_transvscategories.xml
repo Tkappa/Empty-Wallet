@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/white"
     tools:context=".Stats.Stats_transVsCategoriesFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -19,6 +21,7 @@
                 android:id="@+id/stats_transpurcase_toggleincome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/basic_button"
                 android:checked="true"
                 android:textOff="@string/toggleincome"
                 android:textOn="@string/togglepurchase" />
@@ -34,6 +37,8 @@
                 android:id="@+id/fasf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20dp"
                 android:text="Categories" />
 
             <LinearLayout

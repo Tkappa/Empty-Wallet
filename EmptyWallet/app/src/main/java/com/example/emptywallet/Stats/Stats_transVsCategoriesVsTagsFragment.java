@@ -29,6 +29,7 @@ import com.example.emptywallet.Transactions.Transaction;
 import com.example.emptywallet.Transactions.TransactionsViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -146,21 +147,7 @@ public class Stats_transVsCategoriesVsTagsFragment extends Fragment {
                 Log.d("CategorySelection", "onItemSelected:  " + currCat.getName()+ ", "+ currCat.getId());
                 selectedCategoryID=currCat.getId();
                 populatePieChart();;
-               /* if (currCat.getId()==-1){
-                    //Intent intent = new Intent( view.getContext(), CategoryActivity.class);
-                    //startActivityForResult(intent, Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE);
-                    populatePieChart();;
-                }
-                else {
-                    Log.d("CategorySelection", "Else: " + currCat.getName()+ ", "+ currCat.getId() + "Calling getpositionFromId!");
-                    //TODO: SetCategory
 
-                    /*int spinnerPosition = mySpinnerAdapter.getPositionFromId(currCat.getId());
-                    Log.d("CategorySelection", "Spinner position: " + spinnerPosition);
-                    categorySelector.setSelection(spinnerPosition);
-                    mySpinnerAdapter.getItem(position).getId();
-                    //mCategorySpinner.setSelection(adapter.getPosition());
-                }*/
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapter) { }
@@ -205,25 +192,41 @@ public class Stats_transVsCategoriesVsTagsFragment extends Fragment {
         PieData piedata = new PieData();
 
         List<PieEntry> entries = new ArrayList<>();
-        PieDataSet dataset = new PieDataSet(entries,"Categories");
+        PieDataSet dataset = new PieDataSet(entries,"Tags");
         for(int i = 0;i<amounts.size();i++){
-            entries.add(new PieEntry(amounts.get(i),myTags.get(i).getName()));
-            dataset.addColor(myTags.get(i).getColor());
+            if(amounts.get(i)>0){
+                entries.add(new PieEntry(amounts.get(i),myTags.get(i).getName()));
+                dataset.addColor(myTags.get(i).getColor());
+            }
         }
         concurrentSort(amounts,myTags,amounts);
         textLayout.removeAllViews();
 
         for(int i = (myTags.size()-1);i>=0;i--){
-            TextView temp = new TextView(this.getContext());
-            temp.setText(myTags.get(i).getName() + "-" + amounts.get(i).toString());
-            textLayout.addView(temp);
+            if(amounts.get(i)>0) {
+                TextView temp = new TextView(this.getContext());
+                temp.setText(myTags.get(i).getName() + " - " + amounts.get(i).toString());
+                temp.setTextSize(20);
+                textLayout.addView(temp);
+            }
         }
 
 
         dataset.setValueTextColor(Color.BLACK);
+        TextView temp = this.getView().findViewById(R.id.fasf);
+        if(entries.size()>0) {
+            temp.setText("Tags");
+        }
+        else {
+            temp.setText("No Tags found for this category");
+        }
         piedata.addDataSet(dataset);
         myPieChart.setData(piedata);
+        myPieChart.setNoDataText("TestProva");
         myPieChart.invalidate();
+        Description really = new Description();
+        really.setText("Amount spent on Tags by category");
+        myPieChart.setDescription(really);
         myPieChart.spin( 500,0,-360f, Easing.EaseInOutQuad);
     }
 

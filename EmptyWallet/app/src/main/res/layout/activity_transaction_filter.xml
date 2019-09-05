@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/white"
     tools:context=".Transactions.TransactionFilterActivity">
 
     <LinearLayout
@@ -27,6 +29,7 @@
                 android:id="@+id/transaction_filter_category_holder_toggler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/basic_button"
                 android:checked="true"
                 android:text="ToggleButton" />
 
@@ -34,6 +37,7 @@
                 android:id="@+id/transaction_filter_category_holder_includeexclude"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/basic_button"
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="ToggleButton"
@@ -42,6 +46,7 @@
 
             <Button
                 android:id="@+id/transaction_filter_category_holder_addspinner"
+                style="@style/basic_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/addconditioncategory" />
@@ -68,6 +73,7 @@
 
             <ToggleButton
                 android:id="@+id/transaction_filter_tag_holder_toggle"
+                style="@style/basic_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -75,6 +81,7 @@
 
             <ToggleButton
                 android:id="@+id/transaction_filter_tag_holder_includeexclude"
+                style="@style/basic_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -86,6 +93,7 @@
             <Button
                 android:id="@+id/transaction_filter_tag_holder_addtag"
                 android:layout_width="match_parent"
+                style="@style/basic_button"
                 android:layout_height="wrap_content"
                 android:text="@string/addconditiontag" />
         </LinearLayout>
@@ -117,6 +125,7 @@
 
             <ToggleButton
                 android:id="@+id/transaction_filter_date_holder_fromToggle"
+                style="@style/basic_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -145,6 +154,7 @@
 
             <ToggleButton
                 android:id="@+id/transaction_filter_date_holder_toToggle"
+                style="@style/basic_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -170,15 +180,14 @@
 
     <Button
         android:id="@+id/transaction_filter_submitbutton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Button"
+        style="@style/basic_button"
+        android:text="@string/save_filter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_filter_date_holder" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

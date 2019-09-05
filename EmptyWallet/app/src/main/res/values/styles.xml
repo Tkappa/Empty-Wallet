@@ -33,4 +33,9 @@
         <item name="android:paddingLeft">8dp</item>
     </style>
 
+    <style name="basic_button" parent="android:style/Widget.Holo.Light.Button.Inset">
+        <item name="android:backgroundTint">@color/light_blue</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
+    </style>
+
 </resources>

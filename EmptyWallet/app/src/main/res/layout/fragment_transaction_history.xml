@@ -18,9 +18,7 @@
             <Button
                 android:id="@+id/transaction_history_set_filter_button"
 
-                style="@android:style/Widget.Holo.Light.Button.Inset"
-                android:backgroundTint="@color/light_blue"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                style="@style/basic_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/set_filters" />
@@ -28,10 +26,7 @@
             <Button
                 android:id="@+id/transaction_history_statsbutton"
                 android:layout_width="wrap_content"
-
-                style="@android:style/Widget.Holo.Light.Button.Inset"
-                android:backgroundTint="@color/light_blue"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                style="@style/basic_button"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/statsbutton" />

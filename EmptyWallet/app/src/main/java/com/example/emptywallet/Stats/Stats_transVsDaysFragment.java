@@ -22,6 +22,7 @@ import com.example.emptywallet.Transactions.TransactionsViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -80,7 +81,6 @@ public class Stats_transVsDaysFragment extends Fragment {
         myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
         myCategoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-        textLayout = view.findViewById(R.id.stats_transdays_textlayout);
 
         myBarChart= view.findViewById(R.id.stats_transdaysbarchart);
         incometoggler= view.findViewById(R.id.stats_transdays_toggleincome);
@@ -91,7 +91,7 @@ public class Stats_transVsDaysFragment extends Fragment {
         myTransViewModel.getAllTransactions().observe(this, transactions -> {
             myTransactions=transactions;
             Log.d("StatsView", "getalltra");
-            if(myTransactions!=null && myCategories!=null){
+            if(myTransactions!=null){
                 Log.d("StatsView", "getalltrapop");
                 populateBarChart();
             }
@@ -146,6 +146,10 @@ public class Stats_transVsDaysFragment extends Fragment {
 
         myBarChart.setData(bardata);
         myBarChart.invalidate();
+
+        Description really = new Description();
+        really.setText("Amount spent on each day");
+        myBarChart.setDescription(really);
         myBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(dayNames));
         myBarChart.animateXY( 500,500, Easing.EaseInOutQuad);
     }

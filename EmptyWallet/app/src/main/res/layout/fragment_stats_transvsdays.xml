@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/white"
     tools:context=".Stats.Stats_transVsCategoriesFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -18,6 +20,7 @@
             <ToggleButton
                 android:id="@+id/stats_transdays_toggleincome"
                 android:layout_width="match_parent"
+                style="@style/basic_button"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:textOff="@string/toggleincome"
@@ -29,18 +32,6 @@
                 android:layout_height="@dimen/chart_heigth" >
 
             </com.github.mikephil.charting.charts.BarChart>
-
-            <TextView
-                android:id="@+id/fasf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Categories" />
-
-            <LinearLayout
-                android:id="@+id/stats_transdays_textlayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
 
         </LinearLayout>
     </ScrollView>

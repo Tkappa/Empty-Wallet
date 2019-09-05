@@ -27,6 +27,7 @@ import com.example.emptywallet.Transactions.Transaction;
 import com.example.emptywallet.Transactions.TransactionsViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -129,22 +130,39 @@ public class Stats_transVsCategoriesFragment extends Fragment {
         List<PieEntry> entries = new ArrayList<>();
         PieDataSet dataset = new PieDataSet(entries,"Categories");
         for(int i = 0;i<amounts.size();i++){
-            entries.add(new PieEntry(amounts.get(i),myCategories.get(i).getName()));
-            Random rnd = new Random();
-            int tmp=Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-            dataset.addColor(tmp);
+            if(amounts.get(i)>0){
+                entries.add(new PieEntry(amounts.get(i),myCategories.get(i).getName()));
+                Random rnd = new Random();
+                int tmp=Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                dataset.addColor(tmp);
+            }
         }
         concurrentSort(amounts,myCategories,amounts);
         textLayout.removeAllViews();
         for(int i = (myCategories.size()-1);i>=0;i--){
-            TextView temp = new TextView(this.getContext());
-            temp.setText(myCategories.get(i).getName() + "-" + amounts.get(i).toString());
-            textLayout.addView(temp);
+            if(amounts.get(i)>0) {
+                TextView temp = new TextView(this.getContext());
+                temp.setText(myCategories.get(i).getName() + " - " + amounts.get(i).toString());
+
+                temp.setTextSize(20);
+                textLayout.addView(temp);
+            }
         }
 
+        TextView temp = this.getView().findViewById(R.id.fasf);
+        if(entries.size()>0) {
+            temp.setText("Categories");
+        }
+        else {
+            temp.setText("No Categories found");
+        }
 
         dataset.setValueTextColor(Color.BLACK);
         piedata.addDataSet(dataset);
+        Description really = new Description();
+        really.setText("Amount spent on each Category");
+        myPieChart.setDescription(really);
+
         myPieChart.setData(piedata);
         myPieChart.invalidate();
         myPieChart.spin( 500,0,-360f, Easing.EaseInOutQuad);

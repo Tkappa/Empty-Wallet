@@ -17,12 +17,10 @@
 
             <Button
                 android:id="@+id/budget_addcategoryButton"
-                style="@android:style/Widget.Holo.Light.Button.Inset"
+                style="@style/basic_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/light_blue"
-                android:text="@string/newcategory"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                android:text="@string/newcategory" />
 
         </LinearLayout>
 
