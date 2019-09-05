@@ -105,7 +105,7 @@ public class TransactionsListAdapter extends RecyclerView.Adapter<TransactionsLi
 
             holder.tTitle.setText(current.getTitle());
             holder.tAmount.setText(current.getAmount()+"");
-            holder.tDate.setText(dayDateFormat.format(current.getDate())+"\n"+dateFormat.format(current.getDate()));
+            holder.tDate.setText(dayDateFormat.format(current.getDate())+" "+dateFormat.format(current.getDate()));
 
             Drawable temp;
             if(current.getIsPurchase()){

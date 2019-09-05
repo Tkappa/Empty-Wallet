@@ -17,8 +17,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@android:color/holo_orange_light"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_conversion_absoluteHeight="31dp"
@@ -27,7 +28,7 @@
 
     <TextView
         android:id="@+id/budget_single_spentAmount"
-        android:layout_width="93dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
@@ -38,14 +39,22 @@
         tools:layout_conversion_absoluteWidth="152dp" />
 
     <TextView
+        android:id="@+id/budgetlefttext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/budgetlefttext"
+        app:layout_constraintStart_toEndOf="@+id/budget_single_spentAmount"
+        app:layout_constraintTop_toBottomOf="@+id/budget_single_categoryTitle" />
+
+    <TextView
         android:id="@+id/budget_single_budgetAmount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="8dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/budget_single_spentAmount"
+        app:layout_constraintStart_toEndOf="@+id/budgetlefttext"
         app:layout_constraintTop_toBottomOf="@+id/budget_single_categoryTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,10 @@
 
             <Button
                 android:id="@+id/transaction_history_set_filter_button"
+
+                style="@android:style/Widget.Holo.Light.Button.Inset"
+                android:backgroundTint="@color/light_blue"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/set_filters" />
@@ -24,6 +28,10 @@
             <Button
                 android:id="@+id/transaction_history_statsbutton"
                 android:layout_width="wrap_content"
+
+                style="@android:style/Widget.Holo.Light.Button.Inset"
+                android:backgroundTint="@color/light_blue"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/statsbutton" />
@@ -33,7 +41,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
+            android:background="@color/white"
             tools:listitem="@layout/recyclerview_singletransaction">
 
         </androidx.recyclerview.widget.RecyclerView>

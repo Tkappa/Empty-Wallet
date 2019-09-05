@@ -16,9 +16,9 @@
 
     <string name="newtransaction">New Transaction</string>
     <string name="whatif">What if</string>
-    <string name="spentday">Spent in the last day</string>
-    <string name="spentweek">Spent in the last week</string>
-    <string name="spentmonth">Spent in the last month</string>
+    <string name="spentday">Euros spent in the last day</string>
+    <string name="spentweek">Euros spent in the last week</string>
+    <string name="spentmonth">Euros spent in the last month</string>
 
     <string name="togglepurchase">Purchase</string>
     <string name="toggleincome">Income</string>
@@ -38,6 +38,7 @@
     <string name="statsbutton">View Stats</string>
     <string name="budgethint">Add the budget amount…</string>
     <string name="newcatwrongamount">Amount needs to be a number</string>
+    <string name="budgetlefttext">spent out of a budget of </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

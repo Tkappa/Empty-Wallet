@@ -17,9 +17,12 @@
 
             <Button
                 android:id="@+id/budget_addcategoryButton"
-                android:layout_width="wrap_content"
+                style="@android:style/Widget.Holo.Light.Button.Inset"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/set_filters" />
+                android:backgroundTint="@color/light_blue"
+                android:text="@string/newcategory"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         </LinearLayout>
 
@@ -27,7 +30,7 @@
             android:id="@+id/budget_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
+            android:background="@color/white"
             tools:listitem="@layout/recyclerview_singlecategory">
 
         </androidx.recyclerview.widget.RecyclerView>

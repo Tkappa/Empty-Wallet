@@ -89,7 +89,15 @@ public class TransactionActivity extends AppCompatActivity {
         currentTags= new ArrayList<>();
         tagsToRemove = new ArrayList<>();
 
-        myCategoryViewModel.getAllCategories().observe( this, categories -> adapter.setCategories(categories));
+        myCategoryViewModel.getAllCategories().observe( this, categories -> {
+            adapter.setCategories(categories);
+            if(myTransaction!=null){
+                Log.d("CategorySelection", "onPostExecute: I'm searching for " +myTransaction.getCategoryId());
+                Log.d("CategorySelection", "onPostExecute: I've should've update the spinnet to " + adapter.getPositionFromId(myTransaction.getCategoryId()));
+                mCategorySpinner.setSelection(adapter.getPositionFromId(myTransaction.getCategoryId()));
+            }
+        });
+//        adapter.setCategories(myCategoryViewModel.getAllCategories().getValue());
 
         adapter = new CategorySpinnerAdapter(this,
                 android.R.layout.simple_spinner_item);
@@ -283,6 +291,7 @@ public class TransactionActivity extends AppCompatActivity {
         }
     }
 
+
     private void removeFromTagList(Tag key){
         int toRemove=-1;
         for(int i=0; i<currentTags.size();i++){
@@ -318,9 +327,7 @@ public class TransactionActivity extends AppCompatActivity {
                 mEditDateView.setText(dateFormat.format(myTransaction.getDate()));
                 mEditDescriptionView.setText(myTransaction.getDescription());
                 mIsPurchaseView.setChecked(myTransaction.getIsPurchase());
-                Log.d("CategorySelection", "onPostExecute: I'm searching for " +myTransaction.getCategoryId()  );
-                Log.d("CategorySelection", "onPostExecute: I've should've update the spinnet to " + adapter.getPositionFromId(myTransaction.getCategoryId())  );
-                mCategorySpinner.setSelection(adapter.getPositionFromId(myTransaction.getCategoryId()));
+
                 new updateTagsFromDataAsyncTask().execute(myTransaction.getId());
 
             }

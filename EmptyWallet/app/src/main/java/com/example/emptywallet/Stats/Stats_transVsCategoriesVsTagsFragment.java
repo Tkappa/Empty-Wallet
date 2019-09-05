@@ -135,6 +135,7 @@ public class Stats_transVsCategoriesVsTagsFragment extends Fragment {
 
 
         mySpinnerAdapter=new CategorySpinnerAdapter(view.getContext(),android.R.layout.simple_spinner_item);
+        mySpinnerAdapter.setJollyName("See all categories");
         categorySelector.setAdapter(mySpinnerAdapter);
         categorySelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 

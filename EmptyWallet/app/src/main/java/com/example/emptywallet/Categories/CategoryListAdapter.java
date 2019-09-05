@@ -114,7 +114,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             Category current = myCategories.get(position);
 
             holder.tTitle.setText(current.getName());
-            holder.tBudgetAmount.setText(current.getBudgetAmount()+"");
+
+            if (current.getBudgetAmount()<=0){
+                holder.tBudgetAmount.setText("no budget set");
+            }
+            else {
+                holder.tBudgetAmount.setText(current.getBudgetAmount()+"");
+            }
 
             holder.itemView.setClipToOutline(true);
 
@@ -122,7 +128,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
             Log.d("CategoryBudget", "hello!" + current.getName() + ", size is "+values.size());
 
-            int totalAmount=-1;
+            int totalAmount=0;
 
             for (Transaction t:values){
                 int curramount = t.getAmount();
@@ -131,7 +137,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             }
 
 
-            holder.tAmount.setText(totalAmount+"");
+            holder.tAmount.setText((-1*totalAmount)+"");
             Drawable tDraw = ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.tag_shape);
 
             totalAmount = totalAmount*-1;
@@ -144,12 +150,12 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                 if(percentile>1){
                     percentile=1;
                 }
-                tDraw.setColorFilter(new PorterDuffColorFilter(interpolateColor(Color.RED,Color.WHITE,percentile), PorterDuff.Mode.SRC_ATOP));
+                tDraw.setColorFilter(new PorterDuffColorFilter(interpolateColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.red),ContextCompat.getColor(holder.itemView.getContext(), R.color.white),percentile), PorterDuff.Mode.SRC_ATOP));
             }
             else
             {
                 percentile= (float) ((totalAmount * 1.0)/current.getBudgetAmount());
-                tDraw.setColorFilter(new PorterDuffColorFilter(interpolateColor(Color.WHITE,Color.BLUE,percentile), PorterDuff.Mode.SRC_ATOP));
+                tDraw.setColorFilter(new PorterDuffColorFilter(interpolateColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.white),ContextCompat.getColor(holder.itemView.getContext(), R.color.blue),percentile), PorterDuff.Mode.SRC_ATOP));
             }
 
 

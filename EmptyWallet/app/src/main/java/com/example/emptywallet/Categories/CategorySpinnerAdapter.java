@@ -111,11 +111,11 @@ public class CategorySpinnerAdapter extends ArrayAdapter<Category>{
             int position=myCategories.size();
             for(int i=0;i<myCategories.size();i++){
                 Category c = myCategories.get(i);
+                Log.d("CategorySelection", "getPositionFromId: Checking! " + c.getName() + ", "+ c.getId());
                 if(c.getId()==id){
                     Log.d("CategorySelection", "getPositionFromId: YA, FOUND! " + c.getName());
                     position=i;
                     Log.d("CategorySelection", "getPositionFromId: YA, Position " + position);
-
                 }
             }
             return position;
@@ -124,5 +124,9 @@ public class CategorySpinnerAdapter extends ArrayAdapter<Category>{
             Log.d("CategorySelection", "getPositionFromId: Brah, è null!! ");
             return 0;
         }
+    }
+    public void setJollyName(String name){
+        myCategories.get(myCategories.size()-1).setName(name);
+
     }
 }
