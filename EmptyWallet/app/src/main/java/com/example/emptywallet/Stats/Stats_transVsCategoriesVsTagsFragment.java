@@ -1,6 +1,5 @@
 package com.example.emptywallet.Stats;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.emptywallet.Categories.Category;
-import com.example.emptywallet.Categories.CategoryActivity;
 import com.example.emptywallet.Categories.CategorySpinnerAdapter;
 import com.example.emptywallet.Categories.CategoryViewModel;
-import com.example.emptywallet.Constants;
 import com.example.emptywallet.Database.tagTransactionRelation;
 import com.example.emptywallet.R;
 import com.example.emptywallet.Tags.Tag;
@@ -40,7 +37,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 
 public class Stats_transVsCategoriesVsTagsFragment extends Fragment {
@@ -99,33 +95,29 @@ public class Stats_transVsCategoriesVsTagsFragment extends Fragment {
         myTagsViewModel.getAllTags().observe(this,tags->{
             myTags=tags;
             if(myTransactions!=null && myCategories!=null && myTags!=null && myTagTransactionRelations!=null){
-                Log.d("StatsView", "getallcatpop");
+                //We only populate the chart when we have all the data
                 populatePieChart();
             }
         });
         myTagsViewModel.getAllTagTransactionRelations().observe(this,relations->{
             myTagTransactionRelations=relations;
             if(myTransactions!=null && myCategories!=null && myTags!=null && myTagTransactionRelations!=null){
-                Log.d("StatsView", "getallcatpop");
+                //We only populate the chart when we have all the data
                 populatePieChart();
             }
         });
         myCategoryViewModel.getAllCategories().observe(this, categories -> {
             myCategories=categories;
-
             mySpinnerAdapter.setCategories(myCategories);
-
-            Log.d("StatsView", "getallcat");
             if(myTransactions!=null && myCategories!=null && myTags!=null && myTagTransactionRelations!=null){
-                Log.d("StatsView", "getallcatpop");
+                //We only populate the chart when we have all the data
                 populatePieChart();
             }
         });
         myTransViewModel.getAllTransactions().observe(this, transactions -> {
             myTransactions=transactions;
-            Log.d("StatsView", "getalltra");
             if(myTransactions!=null && myCategories!=null && myTags!=null && myTagTransactionRelations!=null){
-                Log.d("StatsView", "getallcatpop");
+                //We only populate the chart when we have all the data
                 populatePieChart();
             }
 
@@ -146,7 +138,7 @@ public class Stats_transVsCategoriesVsTagsFragment extends Fragment {
                 Category currCat = mySpinnerAdapter.getItem(position);
                 Log.d("CategorySelection", "onItemSelected:  " + currCat.getName()+ ", "+ currCat.getId());
                 selectedCategoryID=currCat.getId();
-                populatePieChart();;
+                populatePieChart();
 
             }
             @Override
@@ -155,9 +147,7 @@ public class Stats_transVsCategoriesVsTagsFragment extends Fragment {
 
         myPieChart= view.findViewById(R.id.stats_transpurcasetagspiechart);
         incometoggler= view.findViewById(R.id.stats_transpurcasetags_toggleincome);
-        incometoggler.setOnClickListener(view1 -> {
-            populatePieChart();
-        });
+        incometoggler.setOnClickListener(view1 -> populatePieChart());
 
 
 
@@ -171,9 +161,6 @@ public class Stats_transVsCategoriesVsTagsFragment extends Fragment {
         for (Tag t : myTags){
             amounts.add(new Integer(0));
         }
-
-
-
 
         for (Transaction t : myTransactions){
             if(t.getIsPurchase()==incometoggler.isChecked()&&(t.getCategoryId()==selectedCategoryID || selectedCategoryID==-1)){

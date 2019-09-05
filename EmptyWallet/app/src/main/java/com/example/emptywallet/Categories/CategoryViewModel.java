@@ -6,7 +6,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.emptywallet.Database.WalletRepository;
-import com.example.emptywallet.Tags.Tag;
 
 import java.util.List;
 

@@ -1,15 +1,7 @@
 package com.example.emptywallet.Stats;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +10,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.example.emptywallet.Categories.Category;
 import com.example.emptywallet.Categories.CategoryViewModel;
 import com.example.emptywallet.R;
-import com.example.emptywallet.Tags.Tag;
 import com.example.emptywallet.Tags.TagsViewModel;
 import com.example.emptywallet.Transactions.Transaction;
 import com.example.emptywallet.Transactions.TransactionsViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -86,30 +79,25 @@ public class Stats_transVsCategoriesFragment extends Fragment {
 
         myPieChart= view.findViewById(R.id.stats_transcatpiechart);
         incometoggler= view.findViewById(R.id.stats_transpurcase_toggleincome);
-        incometoggler.setOnClickListener(view1 -> {
-            populatePieChart();
-        });
+        incometoggler.setOnClickListener(view1 -> populatePieChart());
 
         myCategoryViewModel.getAllCategories().observe(this, categories -> {
                 myCategories=categories;
-
-            Log.d("StatsView", "getallcat");
                 if(myTransactions!=null && myCategories!=null){
-                    Log.d("StatsView", "getallcatpop");
-                populatePieChart();
-            }
+                    //We only populate the chart when we have all the data
+                    populatePieChart();
+                }
             });
 
         myTransViewModel.getAllTransactions().observe(this, transactions -> {
             myTransactions=transactions;
-            Log.d("StatsView", "getalltra");
             if(myTransactions!=null && myCategories!=null){
-                Log.d("StatsView", "getalltrapop");
+                //We only populate the chart when we have all the data
                 populatePieChart();
             }
 
         });
-        //populatePieChart();
+
         return view;
     }
 

@@ -15,12 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emptywallet.Constants;
 import com.example.emptywallet.R;
-import com.example.emptywallet.Stats.MainStatsActivity;
 import com.example.emptywallet.Tags.TagsViewModel;
-import com.example.emptywallet.Transactions.TransactionActivity;
-import com.example.emptywallet.Transactions.TransactionFilterActivity;
-import com.example.emptywallet.Transactions.TransactionHistoryFilter;
-import com.example.emptywallet.Transactions.TransactionsListAdapter;
 import com.example.emptywallet.Transactions.TransactionsViewModel;
 
 import static android.app.Activity.RESULT_OK;
@@ -52,15 +47,9 @@ public class BudgetFragment  extends Fragment implements CategoryListAdapter.OnC
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            Log.d("CategoryBudget", "hello3!");
-            /*setFiltersButton = view.findViewById(R.id.transaction_history_set_filter_button);
-            setFiltersButton.setOnClickListener(v->{
-                Intent intent = new Intent(getActivity(), TransactionFilterActivity.class);
-                startActivityForResult(intent, Constants.SET_FILTER_ACTIVITY_REQUEST_CODE);
-            });*/
-
             myTransViewModel = ViewModelProviders.of(this).get(TransactionsViewModel.class);
             myCategoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
             adapter.setMyTransViewModel(myTransViewModel);
             adapter.setCategoryViewModel(myCategoryViewModel);
             adapter.setTagsViewModel(ViewModelProviders.of(this).get(TagsViewModel.class));
@@ -68,7 +57,6 @@ public class BudgetFragment  extends Fragment implements CategoryListAdapter.OnC
             myTransViewModel.getAllTransactions().observe( this, transactions -> adapter.setTransactions(transactions));
             myCategoryViewModel.getAllCategories().observe(this,categories -> {
                 adapter.setCategories(categories);
-                Log.d("Category","observer triggered");
             });
 
             newCategory=view.findViewById(R.id.budget_addcategoryButton);
@@ -77,20 +65,12 @@ public class BudgetFragment  extends Fragment implements CategoryListAdapter.OnC
                 startActivityForResult(intent, Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE);
             });
 
-
-            /*statsButton = view.findViewById(R.id.transaction_history_statsbutton);
-            statsButton.setOnClickListener(v->{
-                Intent intent = new Intent(getActivity(), MainStatsActivity.class);
-                startActivity(intent);
-            });*/
-
             return view;
         }
 
         @Override
         public void onCategoryClick(int position) {
-            //Go to the corresponding transaction
-            Log.d("TransactionsSelection","You've clicked on the "+position);
+            //Open the corresponding category
 
             Intent intent = new Intent(getActivity(), CategoryActivity.class);
             intent.putExtra("ID",myCategoryViewModel.getAllCategories().getValue().get(position).getId());
@@ -103,10 +83,5 @@ public class BudgetFragment  extends Fragment implements CategoryListAdapter.OnC
             if (requestCode == Constants.MODIFY_CATEGORY_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
                 adapter.notifyDataSetChanged();
             }
-            //if(requestCode == Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
-            //    // 1 offset because the List starts at 0
-            //    mCategorySpinner.setSelection(adapter.getCount()-1);
-            //}
         }
-
     }

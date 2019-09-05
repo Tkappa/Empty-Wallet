@@ -92,12 +92,9 @@ public class TransactionActivity extends AppCompatActivity {
         myCategoryViewModel.getAllCategories().observe( this, categories -> {
             adapter.setCategories(categories);
             if(myTransaction!=null){
-                Log.d("CategorySelection", "onPostExecute: I'm searching for " +myTransaction.getCategoryId());
-                Log.d("CategorySelection", "onPostExecute: I've should've update the spinnet to " + adapter.getPositionFromId(myTransaction.getCategoryId()));
                 mCategorySpinner.setSelection(adapter.getPositionFromId(myTransaction.getCategoryId()));
             }
         });
-//        adapter.setCategories(myCategoryViewModel.getAllCategories().getValue());
 
         adapter = new CategorySpinnerAdapter(this,
                 android.R.layout.simple_spinner_item);
@@ -110,7 +107,6 @@ public class TransactionActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
                 Category currCat = adapter.getItem(position);
-                Log.d("CategorySelection", "onItemSelected:  " + currCat.getName()+ ", "+ currCat.getId());
                 if (currCat.getId()==-1){
                     Intent intent = new Intent( view.getContext(), CategoryActivity.class);
                     intent.putExtra("fromTransaction",true);
@@ -118,12 +114,8 @@ public class TransactionActivity extends AppCompatActivity {
                 }
                 else {
 
-                    Log.d("CategorySelection", "Else: " + currCat.getName()+ ", "+ currCat.getId() + "Calling getpositionFromId!");
-                    //TODO: SetCategory
                     int spinnerPosition = adapter.getPositionFromId(currCat.getId());
-                    Log.d("CategorySelection", "Spinner position: " + spinnerPosition);
                     mCategorySpinner.setSelection(spinnerPosition);
-                    //mCategorySpinner.setSelection(adapter.getPosition());
                 }
             }
             @Override

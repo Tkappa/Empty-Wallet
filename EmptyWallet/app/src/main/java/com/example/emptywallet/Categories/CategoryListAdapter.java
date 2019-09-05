@@ -1,34 +1,25 @@
 package com.example.emptywallet.Categories;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emptywallet.R;
-import com.example.emptywallet.Tags.Tag;
 import com.example.emptywallet.Tags.TagsViewModel;
 import com.example.emptywallet.Transactions.Transaction;
 import com.example.emptywallet.Transactions.TransactionHistoryFilter;
-import com.example.emptywallet.Transactions.TransactionsListAdapter;
 import com.example.emptywallet.Transactions.TransactionsViewModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +41,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         myTransactions = new ArrayList<Transaction>();
         myCategories = new ArrayList<Category>();
 
-        Log.d("CategoryBudget", "hello!5");
         this.myOnCategotyClickListener = pOnCategoryClickListener;
     }
 
@@ -126,24 +116,24 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
             List<Transaction> values = getAllTransactionsByCategoryID(current.getId());
 
-            Log.d("CategoryBudget", "hello!" + current.getName() + ", size is "+values.size());
 
             int totalAmount=0;
 
             for (Transaction t:values){
                 int curramount = t.getAmount();
-                if(t.getIsPurchase()) curramount=curramount*-1;
+
+                //If it's an Income we want to count it against the budget
+                if(!t.getIsPurchase()) curramount=curramount*-1;
                 totalAmount+=curramount;
             }
 
 
-            holder.tAmount.setText((-1*totalAmount)+"");
+            holder.tAmount.setText((totalAmount)+"");
             Drawable tDraw = ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.tag_shape);
 
             totalAmount = totalAmount*-1;
             float percentile;
 
-            Log.d("CategoryBudget", "hello!" + current.getName() + ","+totalAmount);
 
             if(totalAmount>current.getBudgetAmount()){
                 percentile= (float) (((totalAmount-current.getBudgetAmount()))/current.getBudgetAmount());
@@ -189,10 +179,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         void onCategoryClick(int position);
     }
 
-    private void populateAllCategoriesValues() {
-
-
-    }
 
     private List<Transaction> getAllTransactionsByCategoryID(int id){
         if(myTransactions==null) return new ArrayList<Transaction>();
@@ -210,7 +196,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         float blending= amount;
 
         float inverse_blending = 1 - blending;
-
 
         int red = (int) ((float)(Color.red(x)   * blending   +   Color.red(y)   * inverse_blending));
         int green = (int) ((float)(Color.green(x) * blending   +   Color.green(y) * inverse_blending));

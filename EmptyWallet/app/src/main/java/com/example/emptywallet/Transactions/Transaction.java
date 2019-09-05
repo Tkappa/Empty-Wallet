@@ -32,7 +32,6 @@ public class Transaction {
 
     //TODO: Photos
     //TODO: Geolocalization
-    //TODO: Category
 
     @PrimaryKey(autoGenerate = true)
     @NonNull

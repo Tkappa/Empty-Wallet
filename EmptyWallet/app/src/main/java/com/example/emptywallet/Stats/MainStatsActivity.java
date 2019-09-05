@@ -1,14 +1,11 @@
 package com.example.emptywallet.Stats;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.emptywallet.R;
-import com.example.emptywallet.Transactions.TransactionsViewModel;
-import com.example.emptywallet.WalletFragmentPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainStatsActivity extends AppCompatActivity {

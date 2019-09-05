@@ -13,8 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.emptywallet.R;
-import com.example.emptywallet.Transactions.Transaction;
-import com.example.emptywallet.Transactions.TransactionActivity;
 
 
 public class CategoryActivity extends AppCompatActivity {
@@ -31,6 +29,7 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent myIntent = getIntent();
+
         myCategoryViewModel= ViewModelProviders.of(this).get(CategoryViewModel.class);
         myCategory= new Category();
         myCategory.setId(-1);
@@ -61,7 +60,6 @@ public class CategoryActivity extends AppCompatActivity {
                     int amount = -1;
                     if (budgetAmount != null && !budgetAmount.getText().toString().isEmpty()) {
                         try {
-
                             amount = Integer.parseInt(budgetAmount.getText().toString());
                             Log.d("NewCategory", "Amount is " + amount);
                             tmp.setBudgetAmount(amount);
@@ -76,7 +74,6 @@ public class CategoryActivity extends AppCompatActivity {
                                     getApplicationContext(),
                                     R.string.newcatwrongamount,
                                     Toast.LENGTH_LONG).show();
-
                         }
                     } else {
                         myCategoryViewModel.insert(tmp);
@@ -104,7 +101,6 @@ public class CategoryActivity extends AppCompatActivity {
                                     getApplicationContext(),
                                     R.string.newcatwrongamount,
                                     Toast.LENGTH_LONG).show();
-
                         }
                     }
 

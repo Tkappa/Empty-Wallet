@@ -1,11 +1,6 @@
 package com.example.emptywallet.Transactions;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -20,6 +15,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.emptywallet.Categories.Category;
 import com.example.emptywallet.Categories.CategoryActivity;
@@ -82,6 +81,7 @@ public class TransactionFilterActivity extends AppCompatActivity {
         toggleCategoryExclude=findViewById(R.id.transaction_filter_category_holder_includeexclude);
         addSpinner=findViewById(R.id.transaction_filter_category_holder_addspinner);
         spinnerLayout = findViewById(R.id.transaction_filter_category_holder);
+
         toggleCategory=findViewById(R.id.transaction_filter_category_holder_toggler);
         toggleCategory.setOnClickListener(v->{
             for(Spinner i : categorySpinners){
@@ -89,6 +89,7 @@ public class TransactionFilterActivity extends AppCompatActivity {
             }
             addSpinner.setEnabled(toggleCategory.isChecked());
         });
+
         addSpinner.setEnabled(toggleCategory.isChecked());
         addSpinner.setOnClickListener(v->{
             Spinner temp = new Spinner(v.getContext());
@@ -103,27 +104,14 @@ public class TransactionFilterActivity extends AppCompatActivity {
                     return true;
                 }
             });
-            // You can create an anonymous listener to handle the event when is selected an spinner item
             temp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view,
                                            int position, long id) {
                     Category currCat = adapter.getItem(position);
                     Log.d("CategorySelection", "onItemSelected:  " + currCat.getName()+ ", "+ currCat.getId());
-                    if (currCat.getId()==-1){
-                        Intent intent = new Intent( view.getContext(), CategoryActivity.class);
-                        startActivityForResult(intent, Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE);
-                    }
-                    else {
-
-                        Log.d("CategorySelection", "Else: " + currCat.getName()+ ", "+ currCat.getId() + "Calling getpositionFromId!");
-                        //TODO: SetCategory
-                        int spinnerPosition = adapter.getPositionFromId(currCat.getId());
-                        Log.d("CategorySelection", "Spinner position: " + spinnerPosition);
-                        temp.setSelection(spinnerPosition);
-                        //mCategorySpinner.setSelection(adapter.getPosition());
-                    }
+                    int spinnerPosition = adapter.getPositionFromId(currCat.getId());
+                    temp.setSelection(spinnerPosition);
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapter) { }
@@ -137,28 +125,30 @@ public class TransactionFilterActivity extends AppCompatActivity {
         adapter = new CategorySpinnerAdapter(this,
                 android.R.layout.simple_spinner_item);
         myCategoryViewModel.getAllCategories().observe( this, categories -> adapter.setCategories(categories));
-        // You can create an anonymous listener to handle the event when is selected an spinner item
-
 
 
         toggleTagsExclude=findViewById(R.id.transaction_filter_tag_holder_includeexclude);
         toggleTags=findViewById(R.id.transaction_filter_tag_holder_toggle);
+
         addTag=findViewById(R.id.transaction_filter_tag_holder_addtag);
         addTag.setOnClickListener(view -> {
             Intent intent = new Intent( view.getContext(), SelectTagActivity.class);
             startActivityForResult(intent, Constants.SELECT_TAG_ACTIVITY_REQUEST_CODE);
         });
+
         tagList=new ArrayList<>();
         tagsLayout=findViewById(R.id.transaction_filter_tags_holder_taglayout);
         toggleTags.setOnClickListener(v->{
             addTag.setEnabled(toggleTags.isChecked());
         });
+
         addTag.setEnabled(toggleTags.isChecked());
 
         fromDateToggl=findViewById(R.id.transaction_filter_date_holder_fromToggle);
         fromDateToggl.setOnClickListener(v->{
             fromDateSelector.setEnabled(fromDateToggl.isChecked());
         });
+
         fromDateSelector=findViewById(R.id.transaction_filter_date_holder_fromdatetime);
         fromDateSelector.setOnClickListener(v -> {
             new DatePickerDialog(TransactionFilterActivity.this, (view, year, monthOfYear, dayOfMonth) -> {
@@ -200,15 +190,25 @@ public class TransactionFilterActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v->{
             Intent replyIntent = new Intent();
             setResult(RESULT_OK, replyIntent);
+            //Puts the filters in the intent, the acrivity will pick it up and set it as his filter
             replyIntent.putExtra("categoryFilter",toggleCategory.isChecked());
             replyIntent.putExtra("categoryFilterExclude",toggleCategoryExclude.isChecked());
 
-            replyIntent.putExtra("categoryFilteredList", new int[]{1, 2, 3});
+            List<Integer> categoryIds = new ArrayList<>();
+            for(Spinner s: categorySpinners){
+                categoryIds.add(adapter.getItem(s.getSelectedItemPosition()).getId());
+            }
+            replyIntent.putExtra("categoryFilteredList", convertIntegers(categoryIds));
 
 
             replyIntent.putExtra("tagFilter",toggleTags.isChecked());
             replyIntent.putExtra("tagFilterExclude",toggleTagsExclude.isChecked());
-            replyIntent.putExtra("tagFilterList", new int[]{1, 2, 3});
+
+            List<Integer> TagIds = new ArrayList<>();
+            for(Tag t: tagList){
+                TagIds.add(t.getId());
+            }
+            replyIntent.putExtra("tagFilterList", convertIntegers(TagIds));
 
 
             replyIntent.putExtra("fromDateFilter",fromDateToggl.isChecked());
@@ -219,7 +219,6 @@ public class TransactionFilterActivity extends AppCompatActivity {
             replyIntent.putExtra("toDateDate",toDateCalendar.getTime().getTime());
 
             finish();
-            //TODO: send filters to main activity
         });
 
     }
@@ -229,13 +228,7 @@ public class TransactionFilterActivity extends AppCompatActivity {
         if (requestCode == Constants.SELECT_TAG_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             int tempID=data.getIntExtra("tagID",-1);
             new updateTagsFromTagIDAsyncTask().execute(tempID);
-        } else {
-            //No tag was selected
         }
-        //if(requestCode == Constants.NEW_CATEGORY_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
-        //    // 1 offset because the List starts at 0
-        //    mCategorySpinner.setSelection(adapter.getCount()-1);
-        //}
     }
 
     private class updateTagsFromTagIDAsyncTask extends AsyncTask<Integer, Void, Tag> {
@@ -292,5 +285,15 @@ public class TransactionFilterActivity extends AppCompatActivity {
         if(toRemove!=-1){
             tagList.remove(toRemove);
         }
+    }
+
+    public static int[] convertIntegers(List<Integer> integers)
+    {
+        int[] ret = new int[integers.size()];
+        for (int i=0; i < ret.length; i++)
+        {
+            ret[i] = integers.get(i).intValue();
+        }
+        return ret;
     }
 }
